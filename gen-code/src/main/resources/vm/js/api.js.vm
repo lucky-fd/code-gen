@@ -1,0 +1,70 @@
+import request from '@/utils/request'
+
+// 查询列表
+export function list${BusinessName}(query) {
+  return request({
+    url: '/${moduleName}/${businessName}/list',
+    method: 'get',
+    params: query
+  })
+}
+// 查询
+export function get${BusinessName}(${pkColumn.javaField}) {
+  return request({
+    url: '/${moduleName}/${businessName}/getById/' + ${pkColumn.javaField},
+    method: 'get'
+  })
+}
+// 新增
+export function add${BusinessName}(data) {
+  return request({
+    url: '/${moduleName}/${businessName}/add',
+    method: 'post',
+    data: data
+  })
+}
+// 修改
+export function update${BusinessName}(data) {
+  return request({
+    url: '/${moduleName}/${businessName}/update',
+    method: 'post',
+    data: data
+  })
+}
+// 删除
+export function del${BusinessName}(${pkColumn.javaField}s) {
+  return request({
+    url: '/${moduleName}/${businessName}/delete',
+    method: 'post',
+    data:${pkColumn.javaField}s
+  })
+}
+// 归档
+export function archive(${pkColumn.javaField}s) {
+  return request({
+    url: '/${moduleName}/${businessName}/archive',
+    method: 'post',
+    data:${pkColumn.javaField}s
+  })
+}
+
+// 取消归档
+export function cancelArchive(${pkColumn.javaField}s) {
+  return request({
+    url: '/${moduleName}/${businessName}/cancelArchive',
+    method: 'post',
+    data:${pkColumn.javaField}s
+  })
+}
+
+//导出Excel
+export function exportExcel(data) {
+  return request({
+    url: '/${moduleName}/${businessName}/export' ,
+    method: 'post',
+    timeout:1000*60*10,
+    data:data,
+    responseType: 'blob'
+  })
+}
+

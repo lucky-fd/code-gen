@@ -1,0 +1,60 @@
+package ${packageName}.domain;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+#if($table.crud || $table.sub)
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.ci.erp.common.mybatis.domain.BaseEntityPlus;
+#elseif($table.tree)
+#end
+import lombok.Data;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+
+/**
+ * ${functionName} 实体 ${tableName}
+ *
+ * @author zwh
+ * @since  ${datetime}
+ */
+#if($table.crud || $table.sub)
+    #set($Entity="BaseEntityPlus")
+#elseif($table.tree)
+    #set($Entity="TreeEntity")
+#end
+@Data
+@TableName("${tableName}")
+public class ${ClassName} extends ${Entity}{
+    private static final long serialVersionUID=1L;
+
+#foreach ($column in $columns)
+    #if(!$table.isSuperColumn($column.javaField))
+    /**
+     * $column.columnComment
+     */
+    #if($column.list)
+        #set($parentheseIndex=$column.columnComment.indexOf("（"))
+        #if($parentheseIndex != -1)
+            #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+        #else
+            #set($comment=$column.columnComment)
+        #end
+    #end
+    #if($column.columnName == $pkColumn.columnName)
+    @TableId(type = IdType.ASSIGN_ID)
+    #end
+    private $column.javaType $column.javaField;
+    #end
+#end
+#if($table.sub)
+/**
+ * $table.subTable.functionName信息
+ */
+private List<${subClassName}> ${subclassName}List;
+
+#end
+}

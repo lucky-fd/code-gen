@@ -1,0 +1,60 @@
+import request from '@/utils/request'
+
+// 查询列表
+export function list${BusinessName}(query) {
+  return request({
+    url: '/${moduleName}/${businessName}/list',
+    method: 'get',
+    params: query
+  })
+}
+// 查询
+export function get${BusinessName}(${pkColumn.javaField}) {
+  return request({
+    url: '/${moduleName}/${businessName}/getById/' + ${pkColumn.javaField},
+    method: 'get'
+  })
+}
+// 保存
+export function save${BusinessName}(data) {
+  return request({
+    url: '/${moduleName}/${businessName}/save',
+    method: 'post',
+    data: data
+  })
+}
+
+// 删除
+export function del${BusinessName}(${pkColumn.javaField}s) {
+  return request({
+    url: '/${moduleName}/${businessName}/delete',
+    method: 'post',
+    data:${pkColumn.javaField}s
+  })
+}
+
+// 保存
+export function save${BusinessName}Batch(data) {
+  return request({
+    url: '/${moduleName}/${businessName}/saveBatch',
+    method: 'post',
+    data: data
+  })
+}
+
+//******校验规则**********
+
+const rules = {
+  #foreach ($column in $columns)
+    #if($column.query)
+        $column.javaField: [
+        {required: true, message: "请输入内容", trigger: "blur"}
+      ],
+    #end
+  #end
+}
+
+export {
+  rules
+}
+

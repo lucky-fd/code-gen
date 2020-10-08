@@ -1,0 +1,50 @@
+package ${packageName}.domain;
+
+import com.pinuc.online.common.entity.model.PoJoModel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+
+/**
+ * ${functionName} model实体
+ *
+ * @author ${author}
+ * @since  ${datetime}
+ */
+#if($table.crud || $table.sub)
+    #set($Entity="BaseEntityPlus")
+#elseif($table.tree)
+    #set($Entity="TreeEntity")
+#end
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ${ClassName}Model extends PoJoModel {
+
+
+#foreach ($column in $columns)
+    #if(!$table.isSuperColumn($column.javaField))
+    /**
+     * $column.columnComment
+     */
+    #if($column.list)
+        #set($parentheseIndex=$column.columnComment.indexOf("（"))
+        #if($parentheseIndex != -1)
+            #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+        #else
+            #set($comment=$column.columnComment)
+        #end
+    #end
+    #if($column.columnName == $pkColumn.columnName)
+    @TableId(type = IdType.ASSIGN_ID)
+    #end
+    private $column.javaType $column.javaField;
+    #end
+#end
+#if($table.sub)
+/**
+ * $table.subTable.functionName信息
+ */
+private List<${subClassName}> ${subclassName}List;
+
+#end
+}

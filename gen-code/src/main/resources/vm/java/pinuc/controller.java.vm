@@ -1,0 +1,82 @@
+package ${packageName}.controller;
+
+import javax.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * ${functionName}Controller
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Slf4j
+@RestController
+@RequestMapping("/${businessName}")
+public class ${ClassName}Controller {
+
+    @Resource private ${ClassName}Service ${className}Service;
+
+
+    /**
+     * 查询列表
+     * @param ${className} 查询条件
+     * @author ${author}
+     * @since ${datetime}
+     * @return 分页信息
+     */
+    @GetMapping("/list")
+    public Rs<List<${ClassName}Model>> list(${ClassName}Model ${className}) {
+        startPage();
+        return getDataTable(${className}Service.select${ClassName}List(${className}));
+    }
+
+    /**
+     * 获取详细信息
+     * @param ${pkColumn.javaField} id
+     * @author ${author}
+     * @since ${datetime}
+     */
+    @GetMapping(value = "/getById/{${pkColumn.javaField}}")
+    public Rs<${ClassName}Model> getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
+        return Rs.ok(${className}Service.selectBy${pkColumn.capJavaField}(${pkColumn.javaField}));
+    }
+
+    /**
+     * 新增/更新
+     * @param ${className} 新增/更新内容
+     * @author ${author}
+     * @since ${datetime}
+     */
+    @PostMapping("/save")
+    public Rs<?> save(@RequestBody ${ClassName}Model ${className}) {
+        ${className}Service.saveOrUpdate(${className});
+        return Rs.ok();
+    }
+
+    /**
+     * 批量新增/更新
+     * @param ${className} 批量新增/更新内容
+     * @author ${author}
+     * @since ${datetime}
+     */
+    @PostMapping("/saveBatch")
+    public Rs<> saveBatch(@RequestBody List<${ClassName}Model> ${className}) {
+        ${className}Service.saveBatch(${className});
+        return Rs.ok();
+    }
+
+    /**
+     * 单个/批量删除
+     * @author ${author}
+     * @since ${datetime}
+     */
+    @PostMapping("/delete")
+    public Rs<?> remove(@RequestBody List<${pkColumn.javaType}> ${pkColumn.javaField}s) {
+        ${className}Service.removeBatchByIds(${pkColumn.javaField}s);
+        return Rs.ok();
+    }
+
+}

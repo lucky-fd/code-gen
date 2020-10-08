@@ -1,0 +1,24 @@
+# Tomcat
+server:
+  port: 20080
+
+# 数据库支持 mysql postgresql
+gen:
+  auther: lucky_fd
+  packageName: ""
+
+
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/gen_code?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: postgres
+    password: 123456
+
+mybatis:
+  typeAliasesPackage: com.ci.erp.gen.domain
+  mapperLocations: classpath:mapper/**/*.xml
+  # mybatis日志输出
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

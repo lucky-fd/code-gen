@@ -1,0 +1,47 @@
+package ${packageName}.service;
+
+import java.util.List;
+#if($isProcess)
+import com.ci.erp.common.process.service.IFlowService;
+#else
+import com.baomidou.mybatisplus.extension.service.IService;
+#end
+import com.ci.erp.common.core.web.page.TableDataInfo;
+
+/**
+ * ${functionName}Service接口
+ *
+ * @author ${author}
+ * @since  ${datetime}
+ */
+public interface I${ClassName}Service extends #if($isProcess)IFlowService<${ClassName}>#else IService<${ClassName}> #end{
+
+    /**
+     * 主键查询
+     * @param ${pkColumn.javaField} 查询条件
+     * @return 目标数据
+     */
+    ${ClassName}RespVo selectBy${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /**
+     * 条件查询
+     * @param ${className} 查询条件
+     * @return 目标数据
+     */
+    List<${ClassName}RespVo> select${ClassName}List(${ClassName}ReqVo ${className});
+
+    /**
+    * 导出
+    * @param ${className} 查询条件
+    * @param response res
+    */
+    void export(${ClassName}ReqVo ${className},HttpServletResponse response);
+
+    #if($isProcess)
+    /**
+     * 发起流程审批
+     * @param id id
+     */
+    void submitAudit(String id);
+    #end
+}

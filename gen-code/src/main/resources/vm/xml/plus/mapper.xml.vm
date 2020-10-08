@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${packageName}.mapper.${ClassName}Mapper">
+
+    #set ($res="baseResult")
+
+    <resultMap type="${packageName}.domain.${ClassName}" id="baseResult">
+        #foreach ($column in $columns)
+            <result property="${column.javaField}" column="${column.columnName}"/>
+        #end
+    </resultMap>
+    #if($table.sub)
+
+        <resultMap id="${ClassName}${subClassName}Result" type="${ClassName}" extends="${res}">
+            <collection property="${subclassName}List" notNullColumn="sub_${subTable.pkColumn.columnName}"
+                        javaType="java.util.List" resultMap="${subClassName}Result"/>
+        </resultMap>
+
+        <resultMap type="${subClassName}" id="${subClassName}Result">
+            #foreach ($column in $subTable.columns)
+                <result property="${column.javaField}" column="sub_${column.columnName}"/>
+            #end
+        </resultMap>
+    #end
+
+    <sql id="baseSql">
+        select#foreach($column in $columns) $column.columnName#if($foreach.count != $columns.size()),#end#end
+        from ${tableName}
+    </sql>
+
+    <select id="select${ClassName}List" parameterType="${packageName}.domain.${ClassName}ReqVo" resultMap="baseResult">
+        <include refid="baseSql"/>
+        <where>
+            del_flag = '0'
+            #foreach($column in $columns)
+                #set($queryType=$column.queryType)
+                #set($javaField=$column.javaField)
+                #set($javaType=$column.javaType)
+                #set($columnName=$column.columnName)
+                #set($AttrName=$column.javaField.substring(0,1).toUpperCase() + ${column.javaField.substring(1)})
+                #if($column.queryType == "EQ")
+                    <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end">
+                        and $columnName = #{$javaField}
+                    </if>
+                #elseif($queryType == "NE")
+                    <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end">
+                        and $columnName != #{$javaField}
+                    </if>
+                #elseif($queryType == "GT")
+                    <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end">
+                        and $columnName &gt; #{$javaField}
+                    </if>
+                #elseif($queryType == "GTE")
+                    <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end">
+                        and $columnName &gt;= #{$javaField}
+                    </if>
+                #elseif($queryType == "LT")
+                    <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end">
+                        and $columnName &lt; #{$javaField}
+                    </if>
+                #elseif($queryType == "LTE")
+                    <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end">
+                        and $columnName &lt;= #{$javaField}
+                    </if>
+                #elseif($queryType == "LIKE")
+                    <if test="$javaField != null #if($javaType == 'String' ) and $javaField.trim() != ''#end">
+                        and $columnName like CONCAT( '%',#{$javaField},'%')
+                    </if>
+                #elseif($queryType == "BETWEEN")
+                    <if test="params.begin$AttrName != null and params.begin$AttrName != '' and params.end$AttrName != null and params.end$AttrName != ''">
+                        and $columnName between #{params.begin$AttrName} and #{params.end$AttrName}
+                    </if>
+
+                #end
+            #end
+            <if test="includeIds != null and includeIds.size() > 0">
+                and ${pkColumn.columnName} in
+                <foreach item="id" collection="includeIds" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="select${ClassName}By${pkColumn.capJavaField}" parameterType="${pkColumn.javaType}"
+            resultMap="#if($table.sub)${ClassName}${subClassName}Result#else${res}#end">
+        #if($table.crud || $table.tree)
+            <include refid="baseSql"/>
+            where ${pkColumn.columnName} = #{${pkColumn.javaField}}
+        #elseif($table.sub)
+            select#foreach($column in $columns) a.$column.columnName#if($foreach.count != $columns.size()),#end#end,
+            #foreach($column in $subTable.columns) b.$column.columnName as
+                sub_$column.columnName#if($foreach.count != $subTable.columns.size()),#end#end
+
+            from ${tableName} a
+            left join ${subTableName} b on b.${subTableFkName} = a.${pkColumn.columnName}
+            where a.${pkColumn.columnName} = #{${pkColumn.javaField}}
+        #end
+    </select>
+</mapper>

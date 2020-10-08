@@ -1,0 +1,104 @@
+<template>
+  <div>
+    <process-template
+        ref="template"
+        :business-id="${pkColumn.javaField}"
+        @reject="handleReject"
+        @agree="handleAgree"
+    >
+      <template slot="main">
+        <el-card v-loading="loading" class="box-card" v-if="${className}">
+          <el-descriptions title="详细信息" :contentStyle="this.$global.descContentStyle"
+                           :labelStyle="this.$global.descLabelStyle" border>
+            #foreach($column in $columns)
+              #if($column.query)
+              #set($comment=$column.columnComment)
+            <el-descriptions-item label="${comment}">
+              {{ ${className}.${column.javaField} }}
+            </el-descriptions-item>
+            #end
+              #end
+          </el-descriptions>
+        </el-card>
+        <el-row>
+          <el-col>
+            <el-divider content-position="center">明细信息</el-divider>
+            <sub-table v-model="subList" :sup="${className}" ref="subTable" :pdict="dict" v-if="${className}" />
+          </el-col>
+        </el-row>
+
+
+      </template>
+    </process-template>
+  </div>
+</template>
+
+<script>
+  import ProcessTemplate from "@/views/components/ProcessTemplate";
+  import SubTable from "../subTable";
+  import {
+    get${ClassName},
+    processReject,
+    processAgree
+  } from "@/api/${moduleBusinessName}/${className}";
+
+  export default {
+    name: "Index",
+    props: {},
+    #if(${dicts} != '')
+      dicts: [${dicts}],
+    #end
+    components: {ProcessTemplate,SubTable},
+    data() {
+      return {
+        params:undefined,
+        ${pkColumn.javaField}: undefined,
+        ${className}: undefined,
+        loading: false,
+        subList:[]
+      };
+    },
+    watch: {},
+    created() {
+      this.params = JSON.parse(this.Base64.decode(this.#[[$route]]#.query.params))
+      this.${pkColumn.javaField} = this.params.businessId
+      this.getData()
+    },
+    computed: {},
+    methods: {
+      getData() {
+        get${ClassName}(this.${pkColumn.javaField}).then(response => {
+          this.${className} = response.data;
+          if (this.${className}.processId && this.${className}.processId !== '') {
+            this.#[[$refs]]#.template.getProcessInfo(this.${className}.processId)
+          }
+        })
+      },
+      handleReject(param) {
+        this.#[[$modal]]#.loading()
+        processReject(param).then(resp => {
+          this.#[[$refs]]#.template.getProcessInfo(this.${className}.processId);
+          this.getData()
+          this.#[[$modal]]#.success("操作成功!");
+        }).finally(() => {
+          this.#[[$modal]]#.closeLoading()
+        })
+      },
+      handleAgree(param) {
+        this.#[[$modal]]#.loading()
+        processAgree(param).then(resp => {
+          this.#[[$refs]]#.template.getProcessInfo(this.${className}.processId);
+          this.getData()
+          this.#[[$modal]]#.success("操作成功!");
+        }).finally(() => {
+          this.#[[$modal]]#.closeLoading()
+        })
+      }
+    },
+  };
+</script>
+
+<style scoped lang="scss">
+
+</style>
+

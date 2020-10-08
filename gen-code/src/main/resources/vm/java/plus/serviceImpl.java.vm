@@ -1,0 +1,160 @@
+package ${packageName}.service.impl;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import com.ci.erp.common.mybatis.service.impl.ServiceImplPlus;
+import com.ci.erp.common.core.web.page.TableDataInfo;
+#if($isProcess)
+import com.ci.erp.common.process.enums.EmCommonProcessStatus;
+import org.apache.commons.collections.CollectionUtils;
+import com.ci.erp.common.core.constant.ProcessConstants;
+import io.seata.spring.annotation.GlobalTransactional;
+import com.ci.erp.common.core.exception.ServiceException;
+import com.ci.erp.common.core.utils.StringUtils;
+import com.ci.erp.common.core.enums.ResCode;
+
+import static com.ci.erp.api.process.domain.dto.ProcessCommitReqDto.*;
+import static com.ci.erp.common.process.constant.ProcessConstant.*;
+#end
+#if($table.sub)
+import ${packageName}.domain.${subClassName};
+#end
+/**
+ * ${functionName}Service业务层处理
+ *
+ * @author ${author}
+ * @since  ${datetime}
+ */
+@Slf4j
+@Service
+public class ${ClassName}ServiceImpl extends #if($isProcess)FlowServiceImplPlus<${ClassName}Mapper #else ServiceImplPlus<${ClassName}Mapper #end, ${ClassName}> implements I${ClassName}Service {
+
+    @Override
+    public ${ClassName}RespVo select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}) {
+        ${ClassName} entity = baseMapper.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
+        return ${ClassName}Convert.INSTANCE.convert(entity);
+    }
+
+    @Override
+    public  List<${ClassName}RespVo> select${ClassName}List(${ClassName}ReqVo ${className}) {
+        List<${ClassName}> list = baseMapper.select${ClassName}List(${className});
+        return ${ClassName}Convert.INSTANCE.convertVoBatch(list);
+    }
+
+    @Override
+    public void export(${ClassName}ReqVo ${className}, HttpServletResponse response) {
+        List<${ClassName}> list;
+        //选择订单导出
+        if (${className}.getIncludeIds().size() > 0){
+            //查询出需要导出的数据
+            ${ClassName} selectList = new ${ClassName}();
+            selectList.setIncludeIds(${className}.getIncludeIds());
+
+        }else{//条件查询导出
+            //排掉前端的勾选列表
+            ${className}.setIncludeIds(null);
+        }
+        list = baseMapper.select${ClassName}List(${className});
+        List<${ClassName}RespVo> resp = ${ClassName}Convert.INSTANCE.convertVoBatch(list);
+        ExcelUtil<${ClassName}RespVo> util = new ExcelUtil<>(${ClassName}RespVo.class);
+        util.exportExcel(response, resp, "导出模板信息");
+    }
+
+    #if($isProcess)
+
+         @Override
+         protected String getKey() {
+            return "xxx";
+         }
+
+        @Override
+        public void endOperation(ProcessEndCallBackDto processDto) {
+            //修改状态为审核完成
+            this.handleModifyStatus(processDto.getBusinessId(), EmCommonProcessStatus.FINISH.getCode());
+        }
+
+        @Override
+        @GlobalTransactional(rollbackFor = Exception.class)
+        public void submitAudit(String ${pkColumn.javaField}) {
+            //检查业务实体是否存在
+            ${ClassName} ${className}=this.getEntityAndCheck(${pkColumn.javaField});
+            //判断状态是否为草稿或者回退
+            if (!(EmCommonProcessStatus.DRAFT.equals(${className}.getStatus()) || EmCommonProcessStatus.TURN_DOWN.equals(${className}.getStatus())))
+            {
+                log.error("当流程流程的状态CODE为{},目标状态码为{100,300}!",${className}.getStatus());
+                throw new ServiceException(ResCode.PROCESS_NOT_AUDIT);
+            }
+            //判断流程是否是回退流程
+            boolean hasProcess = StringUtils.isNotBlank(${className}.getProcessId());
+            //判断流程是否是回退流程
+            if (hasProcess) {
+                this.handleProcess(${className}.getProcessId(), Boolean.TRUE);
+                //修改状态为审核中
+                this.handleModifyStatus(id, EmCommonProcessStatus.AUDIT);
+            } else {
+                //开始审核
+                String processId = this.handleProcess(${className}.get${pkColumn.javaField}(), Boolean.FALSE);
+                handleModifyStatusAndProcessId(id, EmCommonProcessStatus.AUDIT, processId);
+            }
+
+        }
+
+        @Override
+        @GlobalTransactional(rollbackFor = Exception.class)
+        public void rejectOperation(CommonFlowCommit commit) {
+            //检查业务实体是否存在
+            ${ClassName} ${className}=this.getEntityAndCheck(commit.getBusinessId());
+            //检查是否处于审核中
+            this.checkInAudit(${className}.getStatus(), APPROVAL_REJECT);
+            //构建审批对象
+            ProcessCommitReqDto rq = ApproveConvert.INSTANCE.convert(commit, REJECT);
+            //进行审批操作
+            processService.handleApproval(rq);
+            //修改表单状态
+            this.handleModifyStatus(commit.getBusinessId(), EmCommonProcessStatus.TURN_DOWN);
+        }
+
+        @Override
+        @GlobalTransactional(rollbackFor = Exception.class)
+        public void agreeOperation(CommonFlowCommit commit) {
+            //检查业务实体是否存在
+            ${ClassName} ${className}=this.getEntityAndCheck(commit.getBusinessId());
+            //检查是否处于审核中
+            this.checkInAudit(${className}.getStatus, APPROVAL_AGREE);
+            //构建审批对象,设置为审批同意
+            ProcessCommitReqDto rq = ApproveConvert.INSTANCE.convert(commit, COMPLETE);
+            //进行审批操作
+            processService.handleApproval(rq);
+            //修改表单状态
+            this.handleModifyStatus(commit.getBusinessId(), EmCommonProcessStatus.AUDIT);
+        }
+
+        @Override
+        @GlobalTransactional(rollbackFor = Exception.class)
+        public void sponsorRejectOperation(CommonFlowCommit commit) {
+            //检查业务实体是否存在
+            ${ClassName} ${className}=this.getEntityAndCheck(commit.getBusinessId());
+            //检查是否处于审核中
+            this.checkInAudit(${className}.getStatus, APPROVAL_CANCEL);
+            //构建审批对象
+            ProcessCommitReqDto rq = ApproveConvert.INSTANCE.convert(commit, PERSON_REJECT);
+            // 设置类型为审批驳回
+            processService.handleApproval(rq);//方法中自动报错，无需手动报错回滚
+            //修改表单状态
+            this.handleModifyStatus(commit.getBusinessId(), EmCommonProcessStatus.TURN_DOWN);
+        }
+
+    private void handleModifyStatus(String businessId, EmCommonProcessStatus code) {
+            this.handleModifyStatusAndProcessId(businessId, code, null);
+            }
+
+        private void handleModifyStatusAndProcessId(String businessId, EmCommonProcessStatus code, String processId) {
+            ${ClassName} entity = new ${ClassName}();
+            entity.set${pkColumn.capJavaField}(businessId);
+            entity.setStatus(code);
+            entity.setProcessId(processId);
+            this.updateById(entity);
+        }
+    #end
+
+}

@@ -1,0 +1,136 @@
+package ${packageName}.service.impl;
+
+import java.util.List;
+#foreach ($column in $columns)
+#if($column.javaField == 'createTime' || $column.javaField == 'updateTime')
+    #break
+#end
+#end
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+#if($table.sub)
+import java.util.ArrayList;
+import com.yushiji.code.common.core.utils.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
+import ${packageName}.domain.${subClassName};
+#end
+import ${packageName}.mapper.${ClassName}Mapper;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+
+/**
+ * ${functionName}Service业务层处理
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Slf4j
+@Service
+public class ${ClassName}ServiceImpl implements I${ClassName}Service 
+{
+    @Autowired
+    private ${ClassName}Mapper ${className}Mapper;
+
+    @Override
+    public ${ClassName} selectBy${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}) {
+        return ${className}Mapper.selectBy${pkColumn.capJavaField}(${pkColumn.javaField});
+    }
+
+    @Override
+    public List<${ClassName}> selectList(${ClassName} ${className}) {
+        return ${className}Mapper.selectList(${className});
+    }
+
+    @Override
+    public int insert(${ClassName} ${className}) {
+        return ${className}Mapper.insert(${className});
+    }
+    @Override
+    public int update(${ClassName} ${className}) {
+        return ${className}Mapper.update(${className});
+    }
+
+    @Override
+    public int deleteBy${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}) {
+##        #if($table.sub)
+##                ${className}Mapper.delete${subClassName}By${subTableFkClassName}(${pkColumn.javaField});
+##        #end
+        return ${className}Mapper.deleteBy${pkColumn.capJavaField}(${pkColumn.javaField});
+    }
+    @Override
+    public int deleteBy${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s) {
+        return ${className}Mapper.deleteBy${pkColumn.capJavaField}s(${pkColumn.javaField}s);
+    }
+
+
+    #if($table.sub)
+    public void insert${subClassName}(${ClassName} ${className}) {
+        List<${subClassName}> ${subclassName}List = ${className}.get${subClassName}List();
+        ${pkColumn.javaType} ${pkColumn.javaField} = ${className}.get${pkColumn.capJavaField}();
+        if (StringUtils.isNotNull(${subclassName}List))
+        {
+            List<${subClassName}> list = new ArrayList<${subClassName}>();
+            for (${subClassName} ${subclassName} : ${subclassName}List)
+            {
+                ${subclassName}.set${subTableFkClassName}(${pkColumn.javaField});
+                list.add(${subclassName});
+            }
+            if (list.size() > 0)
+            {
+                    ${className}Mapper.batch${subClassName}(list);
+            }
+        }
+    }
+    #end
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int add${ClassName}(${ClassName} ${className}) {
+        return this.insert(${className});
+    }
+
+    @Override
+    public List<${ClassName}> select${ClassName}List(${ClassName} ${className}) {
+        return this.selectList(${className});
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void archive(${pkColumn.javaType}[] ${pkColumn.javaField}s) {
+        for(String  ${pkColumn.javaField} :${pkColumn.javaField}s){
+            ${ClassName}  ${className} = new ${ClassName}();
+            ${className}.set${pkColumn.capJavaField}(${pkColumn.javaField});
+            ${className}.setActive(false);
+            ${className}Mapper.update(${className});
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void cancelArchive(${pkColumn.javaType}[] ${pkColumn.javaField}s) {
+        for(String  ${pkColumn.javaField} :${pkColumn.javaField}s){
+            ${ClassName}  ${className} = new ${ClassName}();
+            ${className}.set${pkColumn.capJavaField}(${pkColumn.javaField});
+            ${className}.setActive(true);
+            ${className}Mapper.update(${className});
+        }
+    }
+
+    public void exportExcel(List<${ClassName}> ${className}List) {
+
+        //创建数据容器
+        List<${ClassName}Export> excelDataList = new ArrayList<>();
+
+        for (${ClassName} item : ${className}List) {
+            ${ClassName}Export rowData = new ${ClassName}Export();
+
+            //todo 为rowData设置值
+
+            excelDataList.add(rowData);
+        }
+
+        //生成Excel实体类类别
+        new ExcelUtil<>(${ClassName}Export.class).httpExportExcel(excelDataList,"${businessName}");
+    }
+}

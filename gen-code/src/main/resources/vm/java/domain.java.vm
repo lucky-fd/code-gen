@@ -1,0 +1,50 @@
+package ${packageName}.domain;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+#if($table.crud || $table.sub)
+#elseif($table.tree)
+#end
+import lombok.Data;
+
+
+/**
+ * ${functionName} 实体 ${tableName}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+#if($table.crud || $table.sub)
+#set($Entity="BaseEntity")
+#elseif($table.tree)
+#set($Entity="TreeEntity")
+#end
+@Data
+public class ${ClassName} extends ${Entity}
+{
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+    #if($column.javaField != 'delFlag')
+#if(!$table.isSuperColumn($column.javaField))
+    /*$column.columnComment*/
+#if($column.list)
+#set($parentheseIndex=$column.columnComment.indexOf("（"))
+#if($parentheseIndex != -1)
+#set($comment=$column.columnComment.substring(0, $parentheseIndex))
+#else
+#set($comment=$column.columnComment)
+#end
+#end
+    private $column.javaType $column.javaField;
+#end
+#end
+#end
+#if($table.sub)
+    /* $table.subTable.functionName信息 */
+    private List<${subClassName}> ${subclassName}List;
+
+#end
+
+}

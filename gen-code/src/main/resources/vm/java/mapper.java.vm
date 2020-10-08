@@ -1,0 +1,39 @@
+package ${packageName}.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
+import ${packageName}.domain.${ClassName};
+#if($table.sub)
+import ${packageName}.domain.${subClassName};
+#end
+
+/**
+ * ${functionName}Mapper接口
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${ClassName}Mapper 
+{
+    /*主键查询*/
+    public ${ClassName} selectBy${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /*条件查询*/
+    public List<${ClassName}> selectList(${ClassName} ${className});
+
+    /*增*/
+    public int insert(${ClassName} ${className});
+
+    /*批量插入*/
+    public int batchInsert(List<${ClassName}> ${className}s);
+
+    /*更新*/
+    public int update(${ClassName} ${className});
+
+    /*删除单个*/
+    public int deleteBy${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+
+    /*删除多个*/
+    public int deleteBy${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s);
+}
