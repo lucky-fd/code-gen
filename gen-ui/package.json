@@ -1,8 +1,8 @@
 {
-    "name": "ci-er",
+    "name": "gen-code",
     "version": "3.5.0",
-    "description": "昶艾ERP",
-    "author": "ci",
+    "description": "代码生成工具",
+    "author": "lucky_fd",
     "license": "MIT",
     "scripts": {
         "dev": "npm run change-modules && vue-cli-service serve",

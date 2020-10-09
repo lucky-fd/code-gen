@@ -1,11 +1,6 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 测试-Mysql
- Source Server Type    : MySQL
- Source Server Version : 80030
- Source Host           : 192.168.20.2:3306
- Source Schema         : ci-erp-db
 
  Target Server Type    : MySQL
  Target Server Version : 80030
