@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yushiji.code.mapper.GenTableMapper">
+<mapper namespace="com.yushiji.code.mapper.mysql.MysqlGenTableMapper">
 
     <resultMap type="com.yushiji.code.domain.GenTable" id="GenTableResult">
         <id property="tableId" column="table_id"/>
@@ -31,8 +31,6 @@
         <result property="isProcess" column="is_process"/>
         <result property="isAssociate" column="is_associate"/>
         <result property="hasExportAndActive" column="has_export_and_active"/>
-
-
         <collection property="columns" javaType="java.util.List" resultMap="GenTableColumnResult"/>
     </resultMap>
 
@@ -112,7 +110,7 @@
     </select>
 
     <!--mysql格式-->
-    <!--    <select id="selectDbTableList" parameterType="domain.com.yushiji.code.GenTable" resultMap="GenTableResult">
+        <select id="selectDbTableList" parameterType="com.yushiji.code.domain.GenTable" resultMap="GenTableResult">
             select table_name, table_comment, create_time, update_time from information_schema.tables
             where table_schema = (select database())
             AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
@@ -123,90 +121,33 @@
             <if test="tableComment != null and tableComment != ''">
                 AND lower(table_comment) like lower(concat('%', #{tableComment}, '%'))
             </if>
-            <if test="params.beginTime != null and params.beginTime != ''">&lt;!&ndash; 开始时间检索 &ndash;&gt;
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
             </if>
-            <if test="params.endTime != null and params.endTime != ''">&lt;!&ndash; 结束时间检索 &ndash;&gt;
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
                 AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
             order by create_time desc
-        </select>-->
-
-    <!--postgre格式-->
-    <select id="selectDbTableList" parameterType="com.yushiji.code.domain.GenTable" resultMap="GenTableResult">
-        SELECT t.table_name, pgd.description AS table_comment
-        FROM information_schema.tables t
-        LEFT JOIN
-        pg_catalog.pg_namespace n ON n.nspname = t.table_schema
-        LEFT JOIN
-        pg_catalog.pg_class pgc ON pgc.relnamespace = n.oid AND pgc.relname = t.table_name
-        LEFT JOIN
-        pg_catalog.pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0
-        WHERE table_schema = current_schema() -- PostgreSQL使用current_schema()来获取当前数据库
-        AND n.nspname = t.table_schema
-        AND t.table_name NOT LIKE 'qrtz_%'
-        AND t.table_name NOT LIKE 'gen_%'
-        AND t.table_name NOT IN (SELECT table_name FROM gen_table)
-        <if test="tableName != null and tableName != ''">
-            AND lower(t.table_name) LIKE lower(concat('%', #{tableName}, '%'))
-        </if>
-    </select>
+        </select>
 
     <!--mysql格式-->
-    <!--    <select id="selectDbTableListByNames" resultMap="GenTableResult">
+        <select id="selectDbTableListByNames" resultMap="GenTableResult">
             select table_name, table_comment, create_time, update_time from information_schema.tables
             where table_name NOT LIKE 'qrtz_%' and table_name NOT LIKE 'gen_%' and table_schema = (select database())
             and table_name in
             <foreach collection="array" item="name" open="(" separator="," close=")">
                 #{name}
             </foreach>
-        </select>-->
-
-    <!--postgre格式-->
-    <select id="selectDbTableListByNames" resultMap="GenTableResult">
-        select t.table_name, pgd.description AS table_comment
-        from information_schema.tables t
-        LEFT JOIN
-        pg_catalog.pg_namespace n ON n.nspname = t.table_schema
-        LEFT JOIN
-        pg_catalog.pg_class pgc ON pgc.relnamespace = n.oid AND pgc.relname = t.table_name
-        LEFT JOIN
-        pg_catalog.pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0
-        where
-        t.table_name NOT LIKE 'qrtz_%'
-        and t.table_name NOT LIKE 'gen_%'
-        and table_schema = current_schema()
-        AND n.nspname = t.table_schema
-        and t.table_name in
-        <foreach collection="array" item="name" open="(" separator="," close=")">
-            #{name}
-        </foreach>
-    </select>
+        </select>
 
     <!--mysql格式-->
-    <!--    <select id="selectTableByName" parameterType="String" resultMap="GenTableResult">
+        <select id="selectTableByName" parameterType="String" resultMap="GenTableResult">
             select table_name, table_comment, create_time, update_time
             from information_schema.tables
             where table_comment <![CDATA[ <> ]]> ''
               and table_schema = (select database())
               and table_name = #{tableName}
-        </select>-->
-
-    <!--postgre格式-->
-    <select id="selectTableByName" parameterType="String" resultMap="GenTableResult">
-        select t.table_name, pgd.description AS table_comment
-        from information_schema.tables t
-                 LEFT JOIN
-             pg_catalog.pg_namespace n ON n.nspname = t.table_schema
-                 LEFT JOIN
-             pg_catalog.pg_class pgc ON pgc.relnamespace = n.oid AND pgc.relname = t.table_name
-                 LEFT JOIN
-             pg_catalog.pg_description pgd ON pgd.objoid = pgc.oid AND pgd.objsubid = 0
-        where pgd.description <![CDATA[ <> ]]> ''
-          and table_schema = current_schema()
-          AND n.nspname = t.table_schema
-          and t.table_name = #{tableName}
-    </select>
+        </select>
 
     <select id="selectGenTableById" parameterType="Long" resultMap="GenTableResult">
         SELECT t.table_id,
@@ -344,7 +285,7 @@
     </select>
 
     <!--mysql-->
-    <!--<insert id="insertGenTable" parameterType="domain.com.yushiji.code.GenTable" useGeneratedKeys="true"
+    <insert id="insertGenTable" parameterType="com.yushiji.code.domain.GenTable" useGeneratedKeys="true"
             keyProperty="tableId">
         insert into gen_table (
         <if test="tableName != null">table_name,</if>
@@ -389,92 +330,9 @@
         <if test="hasExportAndActive != null">#{hasExportAndActive},</if>
         sysdate()
         )
-    </insert>-->
-
-    <!--postgre-->
-    <insert id="insertGenTable" parameterType="com.yushiji.code.domain.GenTable" useGeneratedKeys="true"
-            keyProperty="tableId">
-        insert into gen_table (
-        <if test="tableName != null">table_name,</if>
-        <if test="tableComment != null and tableComment != ''">table_comment,</if>
-        <if test="className != null and className != ''">class_name,</if>
-        <if test="tplCategory != null and tplCategory != ''">tpl_category,</if>
-        <if test="packageName != null and packageName != ''">package_name,</if>
-        <if test="moduleName != null and moduleName != ''">module_name,</if>
-        <if test="businessName != null and businessName != ''">business_name,</if>
-        <if test="functionName != null and functionName != ''">function_name,</if>
-        <if test="functionAuthor != null and functionAuthor != ''">function_author,</if>
-        <if test="genType != null and genType != ''">gen_type,</if>
-        <if test="genPath != null and genPath != ''">gen_path,</if>
-        <if test="remark != null and remark != ''">remark,</if>
-        <if test="createBy != null and createBy != ''">create_by,</if>
-        <if test="templateType != null and templateType != ''">template_type,</if>
-        <if test="moduleBusinessName != null and moduleBusinessName != ''">module_business_name,</if>
-        <if test="subModuleBusinessName != null and subModuleBusinessName != ''">sub_module_business_name,</if>
-        <if test="isProcess != null">is_process,</if>
-        <if test="isAssociate != null">is_associate,</if>
-        <if test="hasExportAndActive != null">has_export_and_active,</if>
-        create_time
-        )values(
-        <if test="tableName != null">#{tableName},</if>
-        <if test="tableComment != null and tableComment != ''">#{tableComment},</if>
-        <if test="className != null and className != ''">#{className},</if>
-        <if test="tplCategory != null and tplCategory != ''">#{tplCategory},</if>
-        <if test="packageName != null and packageName != ''">#{packageName},</if>
-        <if test="moduleName != null and moduleName != ''">#{moduleName},</if>
-        <if test="businessName != null and businessName != ''">#{businessName},</if>
-        <if test="functionName != null and functionName != ''">#{functionName},</if>
-        <if test="functionAuthor != null and functionAuthor != ''">#{functionAuthor},</if>
-        <if test="genType != null and genType != ''">#{genType},</if>
-        <if test="genPath != null and genPath != ''">#{genPath},</if>
-        <if test="remark != null and remark != ''">#{remark},</if>
-        <if test="createBy != null and createBy != ''">#{createBy},</if>
-        <if test="templateType != null and templateType != ''">#{templateType},</if>
-        <if test="moduleBusinessName != null and moduleBusinessName != ''">#{moduleBusinessName},</if>
-        <if test="subModuleBusinessName != null and subModuleBusinessName != ''">#{subModuleBusinessName},</if>
-        <if test="isProcess != null">#{isProcess},</if>
-        <if test="isAssociate != null">#{isAssociate},</if>
-        <if test="hasExportAndActive != null">#{hasExportAndActive},</if>
-        CURRENT_TIMESTAMP(0)
-        )
     </insert>
 
     <!--mysql-->
-    <!--<update id="updateGenTable" parameterType="domain.com.yushiji.code.GenTable">
-        update gen_table
-        <set>
-            <if test="tableName != null">table_name = #{tableName},</if>
-            <if test="tableComment != null and tableComment != ''">table_comment = #{tableComment},</if>
-            <if test="subTableName != null">sub_table_name = #{subTableName},</if>
-            <if test="subTableFkName != null">sub_table_fk_name = #{subTableFkName},</if>
-            <if test="className != null and className != ''">class_name = #{className},</if>
-            <if test="functionAuthor != null and functionAuthor != ''">function_author = #{functionAuthor},</if>
-            <if test="genType != null and genType != ''">gen_type = #{genType},</if>
-            <if test="genPath != null and genPath != ''">gen_path = #{genPath},</if>
-            <if test="tplCategory != null and tplCategory != ''">tpl_category = #{tplCategory},</if>
-            <if test="packageName != null and packageName != ''">package_name = #{packageName},</if>
-            <if test="moduleName != null and moduleName != ''">module_name = #{moduleName},</if>
-            <if test="businessName != null and businessName != ''">business_name = #{businessName},</if>
-            <if test="functionName != null and functionName != ''">function_name = #{functionName},</if>
-            <if test="options != null and options != ''">options = #{options},</if>
-            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
-            <if test="remark != null">remark = #{remark},</if>
-            <if test="templateType != null">template_type = #{templateType},</if>
-            <if test="moduleBusinessName != null and moduleBusinessName != ''">module_business_name =
-                #{moduleBusinessName},
-            </if>
-            <if test="subModuleBusinessName != null and subModuleBusinessName != ''">sub_module_business_name =
-                #{subModuleBusinessName},
-            </if>
-            <if test="isProcess != null">is_process = #{isProcess},</if>
-            <if test="isAssociate != null">is_associate = #{isAssociate},</if>
-            <if test="hasExportAndActive != null">has_export_and_active = #{hasExportAndActive},</if>
-            update_time = sysdate()
-        </set>
-        where table_id = #{tableId}
-    </update>-->
-
-    <!--postgre-->
     <update id="updateGenTable" parameterType="com.yushiji.code.domain.GenTable">
         update gen_table
         <set>
@@ -504,7 +362,7 @@
             <if test="isProcess != null">is_process = #{isProcess},</if>
             <if test="isAssociate != null">is_associate = #{isAssociate},</if>
             <if test="hasExportAndActive != null">has_export_and_active = #{hasExportAndActive},</if>
-            update_time = CURRENT_TIMESTAMP(0)
+            update_time = sysdate()
         </set>
         where table_id = #{tableId}
     </update>

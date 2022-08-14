@@ -1,10 +1,8 @@
 import Vue from 'vue'
 
 //引入图片预览
-import Element, {Image, Statistic} from 'element-ui'
+import Element, {Image} from 'element-ui'
 import './assets/styles/element-variables.scss'
-
-
 import '@/assets/styles/index.scss' // global css
 import '@/assets/styles/ruoyi.scss' // ruoyi css
 import App from './App'
@@ -16,18 +14,8 @@ import {download, downloadExcel} from '@/utils/request'
 
 import './assets/icons' // icon
 import './permission' // permission control
-import {getDicts} from "@/api/system/dict/data";
-import {getConfigKey} from "@/api/system/config";
 import {addDateRange, handleTree, parseTime, resetForm, selectDictLabel, selectDictLabels} from "@/utils/ruoyi";
-import {
-    arrContains,
-    arrContainsByArrProperty,
-    arrContainsByProperty, checkOwner,
-    existInArrObjProperty,
-    isEmpty,
-    matchBool,
-} from '@/utils/global'
-import {checkPermi, checkRole} from '@/utils/permission'
+import {isEmpty} from '@/utils/global'
 
 
 // 分页组件
@@ -36,9 +24,6 @@ import Pagination from "@/components/Pagination";
 import RightToolbar from "@/components/RightToolbar"
 // 富文本组件
 import Editor from "@/components/Editor"
-
-// 图片预览组件
-import ImagePreview from "@/components/ImagePreview"
 // 字典标签组件
 import DictTag from '@/components/DictTag'
 // 头部标签组件
@@ -54,17 +39,12 @@ import SelectTransfer from "@/components/SelectTransfer";
 import TableTransfer from "@/components/TableTransfer";
 import Bus from "@/utils/bus"
 import * as Base64 from 'js-base64'
-//echarts
-import echarts from 'echarts'
 
 
 import {UTable, UTableColumn} from 'umy-ui';
 
-Vue.use(MyPD);
 
 // 全局方法挂载
-Vue.prototype.getDicts = getDicts
-Vue.prototype.getConfigKey = getConfigKey
 Vue.prototype.parseTime = parseTime
 Vue.prototype.resetForm = resetForm
 Vue.prototype.addDateRange = addDateRange
@@ -73,25 +53,8 @@ Vue.prototype.selectDictLabels = selectDictLabels
 Vue.prototype.download = download
 Vue.prototype.downloadExcel = downloadExcel
 Vue.prototype.handleTree = handleTree
-Vue.prototype.existInArrObjProperty = existInArrObjProperty
 Vue.prototype.isEmpty = isEmpty
-Vue.prototype.matchBool = matchBool
-Vue.prototype.arrContainsByProperty = arrContainsByProperty
-Vue.prototype.arrContainsByArrProperty = arrContainsByArrProperty
-Vue.prototype.arrContains = arrContains
-Vue.prototype.checkOwner = checkOwner
-
-
-Vue.prototype.checkPermi = checkPermi
-Vue.prototype.checkRole = checkRole
-
-
-Vue.prototype.viewDetailWithPro = viewDetailWithPro
-Vue.prototype.downloadFromMinio = downloadFromMinio
-Vue.prototype.deepClone = deepClone
 Vue.prototype.Base64 = Base64
-Vue.prototype.$echarts = echarts
-
 // 全局组件挂载
 Vue.component('DictTag', DictTag)
 Vue.component('SelectTag', SelectTag)

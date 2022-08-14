@@ -1,13 +1,12 @@
 package com.yushiji.code.service.impl;
 
-import java.util.List;
-
 import com.yushiji.code.common.core.text.Convert;
+import com.yushiji.code.domain.GenTableColumn;
+import com.yushiji.code.mapper.postgre.PostgresqlGenTableColumnMapper;
 import com.yushiji.code.service.IGenTableColumnService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.yushiji.code.domain.GenTableColumn;
-import com.yushiji.code.mapper.GenTableColumnMapper;
+
+import java.util.List;
 
 /**
  * 业务字段 服务层实现
@@ -15,11 +14,10 @@ import com.yushiji.code.mapper.GenTableColumnMapper;
  * @author lucky_fd
  * @since 2020.6.8
  */
-@Service
-public class GenTableColumnServiceImpl implements IGenTableColumnService
+public class PostgresqlGenTableColumnServiceImpl implements IGenTableColumnService
 {
 	@Autowired
-	private GenTableColumnMapper genTableColumnMapper;
+	private PostgresqlGenTableColumnMapper genTableColumnMapper;
 
 	/**
      * 查询业务字段列表

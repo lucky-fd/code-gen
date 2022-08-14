@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author lucky_fd
  * @since 2020.6.8
  */
-
 @SpringBootApplication
 public class GenApplication
 {

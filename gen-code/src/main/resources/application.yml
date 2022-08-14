@@ -4,20 +4,28 @@ server:
 
 # 数据库支持 mysql postgresql
 gen:
-  auther: lucky_fd
-  packageName: ""
+  author: lucky_fd
+  database-type: mysql # 选择数据库类型后，还需要配置相应数据库的数据源
 
 
-
+# mysql 数据源配置
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:5432/gen_code?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-    username: postgres
-    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: mysql123.
+
+# postgresql 数据源配置
+#spring:
+#  datasource:
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://127.0.0.1:5432/gen_code?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#    username: postgres
+#    password: 123456
 
 mybatis:
-  typeAliasesPackage: com.ci.erp.gen.domain
+  typeAliasesPackage: com.yushiji.code.domain
   mapperLocations: classpath:mapper/**/*.xml
   # mybatis日志输出
   configuration:

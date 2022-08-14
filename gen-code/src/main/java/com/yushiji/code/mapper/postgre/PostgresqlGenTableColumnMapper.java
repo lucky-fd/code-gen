@@ -1,8 +1,8 @@
-package com.yushiji.code.mapper;
+package com.yushiji.code.mapper.postgre;
+
+import com.yushiji.code.domain.GenTableColumn;
 
 import java.util.List;
-import com.yushiji.code.domain.GenTableColumn;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 业务字段 数据层
@@ -10,8 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @author lucky_fd
  * @since 2020.6.8
  */
-@Mapper
-public interface GenTableColumnMapper
+public interface PostgresqlGenTableColumnMapper
 {
     /**
      * 根据表名称查询列信息

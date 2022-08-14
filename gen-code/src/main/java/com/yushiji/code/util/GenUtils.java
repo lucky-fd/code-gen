@@ -3,6 +3,7 @@ package com.yushiji.code.util;
 import java.util.Arrays;
 
 import com.yushiji.code.common.core.constant.GenConstants;
+import com.yushiji.code.common.core.utils.SpringUtils;
 import com.yushiji.code.common.core.utils.StringUtils;
 import org.apache.commons.lang3.RegExUtils;
 import com.yushiji.code.config.GenConfig;
@@ -183,8 +184,9 @@ public class GenUtils
      */
     public static String convertClassName(String tableName)
     {
-        boolean autoRemovePre = GenConfig.getAutoRemovePre();
-        String tablePrefix = GenConfig.getTablePrefix();
+        GenConfig genConfig = SpringUtils.getBean(GenConfig.class);
+        boolean autoRemovePre = genConfig.isAutoRemovePre();
+        String tablePrefix = genConfig.getTablePrefix();
         if (autoRemovePre && StringUtils.isNotEmpty(tablePrefix))
         {
             String[] searchList = StringUtils.split(tablePrefix, ",");

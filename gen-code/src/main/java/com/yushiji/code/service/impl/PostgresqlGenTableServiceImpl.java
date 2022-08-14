@@ -1,5 +1,28 @@
 package com.yushiji.code.service.impl;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import com.yushiji.code.common.core.constant.Constants;
+import com.yushiji.code.common.core.constant.GenConstants;
+import com.yushiji.code.common.core.exception.ServiceException;
+import com.yushiji.code.common.core.text.CharsetKit;
+import com.yushiji.code.common.core.utils.StringUtils;
+import com.yushiji.code.domain.GenTable;
+import com.yushiji.code.domain.GenTableColumn;
+import com.yushiji.code.mapper.postgre.PostgresqlGenTableColumnMapper;
+import com.yushiji.code.mapper.postgre.PostgresqlGenTableMapper;
+import com.yushiji.code.service.IGenTableService;
+import com.yushiji.code.util.GenUtils;
+import com.yushiji.code.util.VelocityInitializer;
+import com.yushiji.code.util.VelocityUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -12,47 +35,21 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.yushiji.code.common.core.constant.Constants;
-import com.yushiji.code.common.core.constant.GenConstants;
-import com.yushiji.code.common.core.exception.ServiceException;
-import com.yushiji.code.common.core.text.CharsetKit;
-import com.yushiji.code.common.core.utils.StringUtils;
-import com.yushiji.code.service.IGenTableService;
-import com.yushiji.code.util.GenUtils;
-import com.yushiji.code.util.VelocityInitializer;
-import com.yushiji.code.util.VelocityUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-import com.yushiji.code.domain.GenTable;
-import com.yushiji.code.domain.GenTableColumn;
-import com.yushiji.code.mapper.GenTableColumnMapper;
-import com.yushiji.code.mapper.GenTableMapper;
-
 /**
  * 业务 服务层实现
  *
  * @author lucky_fd
  * @since 2020.6.8
  */
-@Service
-public class GenTableServiceImpl implements IGenTableService
+public class PostgresqlGenTableServiceImpl implements IGenTableService
 {
 
 
     @Autowired
-    private GenTableMapper genTableMapper;
+    private PostgresqlGenTableMapper genTableMapper;
 
     @Autowired
-    private GenTableColumnMapper genTableColumnMapper;
+    private PostgresqlGenTableColumnMapper genTableColumnMapper;
 
     /**
      * 查询业务信息

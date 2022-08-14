@@ -1,8 +1,9 @@
-package com.yushiji.code.mapper;
+package com.yushiji.code.mapper.mysql;
 
-import java.util.List;
 import com.yushiji.code.domain.GenTable;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 业务 数据层
@@ -11,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2020.6.8
  */
 @Mapper
-public interface GenTableMapper
+public interface MysqlGenTableMapper
 {
     /**
      * 查询业务列表

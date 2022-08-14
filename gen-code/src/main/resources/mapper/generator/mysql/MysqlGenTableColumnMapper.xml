@@ -2,8 +2,8 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yushiji.code.mapper.GenTableColumnMapper">
-    
+<mapper namespace="com.yushiji.code.mapper.mysql.MysqlGenTableColumnMapper">
+
     <resultMap type="com.yushiji.code.domain.GenTableColumn" id="GenTableColumnResult">
         <id     property="columnId"       column="column_id"      />
         <result property="tableId"        column="table_id"       />
@@ -28,11 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"       column="update_by"      />
         <result property="updateTime"     column="update_time"    />
     </resultMap>
-	
+
 	<sql id="selectGenTableColumnVo">
         select column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort, create_by, create_time, update_by, update_time from gen_table_column
     </sql>
-	
+
     <select id="selectGenTableColumnListByTableId" parameterType="com.yushiji.code.domain.GenTableColumn" resultMap="GenTableColumnResult">
         <include refid="selectGenTableColumnVo"/>
         where table_id = #{tableId}
@@ -40,38 +40,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <!--mysql-->
-<!--    <select id="selectDbTableColumnsByName" parameterType="String" resultMap="GenTableColumnResult">
+    <select id="selectDbTableColumnsByName" parameterType="String" resultMap="GenTableColumnResult">
 		select column_name, (case when (is_nullable = 'no' <![CDATA[ && ]]> column_key != 'PRI') then '1' else null end) as is_required, (case when column_key = 'PRI' then '1' else '0' end) as is_pk, ordinal_position as sort, column_comment, (case when extra = 'auto_increment' then '1' else '0' end) as is_increment, column_type
 		from information_schema.columns where table_schema = (select database()) and table_name = (#{tableName})
 		order by ordinal_position
-	</select>-->
-
-    <!--postgre-->
-    <select id="selectDbTableColumnsByName" parameterType="String" resultMap="GenTableColumnResult">
-        SELECT
-            col.column_name,
-            col.ordinal_position AS sort,
-            col.data_type column_type,
-            pd.description column_comment
-        FROM
-            information_schema.columns col
-                LEFT JOIN
-            pg_catalog.pg_attribute att
-            ON col.table_name = (SELECT relname FROM pg_catalog.pg_class WHERE oid = att.attrelid)
-                AND col.ordinal_position = att.attnum
-                LEFT JOIN
-            pg_catalog.pg_description pd
-            ON att.attrelid = pd.objoid
-                AND att.attnum = pd.objsubid
-        WHERE
-            table_schema = current_schema()
-          AND col.table_name = #{tableName}
-        ORDER BY
-            col.ordinal_position;
-    </select>
+	</select>
 
     <!--mysql-->
-    <!--<insert id="insertGenTableColumn" parameterType="domain.com.yushiji.code.GenTableColumn" useGeneratedKeys="true"
+    <insert id="insertGenTableColumn" parameterType="com.yushiji.code.domain.GenTableColumn" useGeneratedKeys="true"
             keyProperty="columnId">
         insert into gen_table_column (
         <if test="tableId != null and tableId != ''">table_id,</if>
@@ -114,56 +90,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="createBy != null and createBy != ''">#{createBy},</if>
         sysdate()
         )
-    </insert>-->
-
-    <!--postgre-->
-    <insert id="insertGenTableColumn" parameterType="com.yushiji.code.domain.GenTableColumn" useGeneratedKeys="true"
-            keyProperty="columnId">
-        insert into gen_table_column (
-        <if test="tableId != null and tableId != ''">table_id,</if>
-        <if test="columnName != null and columnName != ''">column_name,</if>
-        <if test="columnComment != null and columnComment != ''">column_comment,</if>
-        <if test="columnType != null and columnType != ''">column_type,</if>
-        <if test="javaType != null and javaType != ''">java_type,</if>
-        <if test="javaField != null  and javaField != ''">java_field,</if>
-        <if test="isPk != null and isPk != ''">is_pk,</if>
-        <if test="isIncrement != null and isIncrement != ''">is_increment,</if>
-        <if test="isRequired != null and isRequired != ''">is_required,</if>
-        <if test="isInsert != null and isInsert != ''">is_insert,</if>
-        <if test="isEdit != null and isEdit != ''">is_edit,</if>
-        <if test="isList != null and isList != ''">is_list,</if>
-        <if test="isQuery != null and isQuery != ''">is_query,</if>
-        <if test="queryType != null and queryType != ''">query_type,</if>
-        <if test="htmlType != null and htmlType != ''">html_type,</if>
-        <if test="dictType != null and dictType != ''">dict_type,</if>
-        <if test="sort != null">sort,</if>
-        <if test="createBy != null and createBy != ''">create_by,</if>
-        create_time
-        )values(
-        <if test="tableId != null and tableId != ''">#{tableId},</if>
-        <if test="columnName != null and columnName != ''">#{columnName},</if>
-        <if test="columnComment != null and columnComment != ''">#{columnComment},</if>
-        <if test="columnType != null and columnType != ''">#{columnType},</if>
-        <if test="javaType != null and javaType != ''">#{javaType},</if>
-        <if test="javaField != null and javaField != ''">#{javaField},</if>
-        <if test="isPk != null and isPk != ''">#{isPk},</if>
-        <if test="isIncrement != null and isIncrement != ''">#{isIncrement},</if>
-        <if test="isRequired != null and isRequired != ''">#{isRequired},</if>
-        <if test="isInsert != null and isInsert != ''">#{isInsert},</if>
-        <if test="isEdit != null and isEdit != ''">#{isEdit},</if>
-        <if test="isList != null and isList != ''">#{isList},</if>
-        <if test="isQuery != null and isQuery != ''">#{isQuery},</if>
-        <if test="queryType != null and queryType != ''">#{queryType},</if>
-        <if test="htmlType != null and htmlType != ''">#{htmlType},</if>
-        <if test="dictType != null and dictType != ''">#{dictType},</if>
-        <if test="sort != null">#{sort},</if>
-        <if test="createBy != null and createBy != ''">#{createBy},</if>
-        CURRENT_TIMESTAMP(0)
-        )
     </insert>
 
     <!--mysql-->
-<!--    <update id="updateGenTableColumn" parameterType="domain.com.yushiji.code.GenTableColumn">
+    <update id="updateGenTableColumn" parameterType="com.yushiji.code.domain.GenTableColumn">
         update gen_table_column
         <set>
             column_comment = #{columnComment},
@@ -182,40 +112,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             update_time = sysdate()
         </set>
         where column_id = #{columnId}
-    </update>-->
-
-    <!--postgre-->
-    <update id="updateGenTableColumn" parameterType="com.yushiji.code.domain.GenTableColumn">
-        update gen_table_column
-        <set>
-            column_comment = #{columnComment},
-            java_type = #{javaType},
-            java_field = #{javaField},
-            is_insert = #{isInsert},
-            is_edit = #{isEdit},
-            is_list = #{isList},
-            is_query = #{isQuery},
-            is_required = #{isRequired},
-            query_type = #{queryType},
-            html_type = #{htmlType},
-            dict_type = #{dictType},
-            sort = #{sort},
-            update_by = #{updateBy},
-            update_time = CURRENT_TIMESTAMP(0)
-        </set>
-        where column_id = #{columnId}
     </update>
 
-
     <delete id="deleteGenTableColumnByIds" parameterType="Long">
-        delete from gen_table_column where table_id in 
+        delete from gen_table_column where table_id in
         <foreach collection="array" item="tableId" open="(" separator="," close=")">
             #{tableId}
         </foreach>
     </delete>
-    
+
     <delete id="deleteGenTableColumns">
-        delete from gen_table_column where column_id in 
+        delete from gen_table_column where column_id in
         <foreach collection="list" item="item" open="(" separator="," close=")">
             #{item.columnId}
         </foreach>
