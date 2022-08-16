@@ -1,6 +1,6 @@
 # Tomcat
 server:
-  port: 20080
+  port: 20000
 
 # 数据库支持 mysql postgresql
 gen:
