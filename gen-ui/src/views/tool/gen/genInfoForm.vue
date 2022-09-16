@@ -15,7 +15,7 @@
         <el-form-item prop="packageName">
           <span slot="label">
             生成包路径
-            <el-tooltip content="生成在哪个java包下，例如 com.ruoyi.system" placement="top">
+            <el-tooltip content="生成在哪个java包下(这里的包是basePackage)，例如 com.yushiji.code" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
@@ -33,8 +33,7 @@
             <el-select v-model="info.templateType">
                 <el-option label="mybatis" value="base" />
                 <el-option label="mybatis-plus" value="plus" />
-                <el-option label="mybatis-付东" value="fd" />
-                <el-option label="mybatis-plus-pinuc" value="pinuc" />
+                <el-option label="自定义版本" value="custom" />
             </el-select>
         </el-form-item>
       </el-col>
@@ -56,7 +55,7 @@
         <el-form-item prop="businessName">
           <span slot="label">
             生成业务名
-            <el-tooltip content="可理解为功能英文名，例如 user" placement="top">
+            <el-tooltip content="可理解为功能英文名，例如 user。用作" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
@@ -68,7 +67,7 @@
         <el-form-item prop="functionName">
           <span slot="label">
             生成功能名
-            <el-tooltip content="用作类描述，例如 用户" placement="top">
+            <el-tooltip content="可理解为表的业务描述，例如 用户。用作类或方法上简短描述" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
@@ -80,7 +79,7 @@
         <el-form-item>
           <span slot="label">
             上级菜单
-            <el-tooltip content="分配到指定菜单下，例如 系统管理" placement="top">
+            <el-tooltip content="分配到指定菜单下，例如 系统管理（可以不用选）" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
@@ -108,63 +107,17 @@
         </el-form-item>
       </el-col>
 
-        <el-col :span="12" v-if="info.templateType === 'zjj' || info.templateType === 'fd'">
-            <el-form-item prop="moduleBusinessName">
-          <span slot="label">
-            业务包名
-            <el-tooltip content="业务package名称，例如供应链：supplyChain" placement="top">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </span>
-                <el-input v-model="info.moduleBusinessName" />
-            </el-form-item>
-        </el-col>
-        <el-col :span="12" v-if="info.templateType === 'zjj' || info.templateType === 'fd'">
-            <el-form-item prop="subModuleBusinessName">
-          <span slot="label">
-            子业务包名
-            <el-tooltip content="子业务package名称，例如供应链下的采购模块purchase" placement="top">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </span>
-                <el-input v-model="info.subModuleBusinessName" />
-            </el-form-item>
-        </el-col>
-
-        <el-col :span="12" v-if="info.templateType === 'zjj' || info.templateType === 'fd'">
-            <el-form-item prop="isAssociate">
-          <span slot="label">多表业务
-            <el-tooltip content="单表业务不用选。选择后会有两套查询，一套查单表的，一套查询带join或者associate" placement="top">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </span>
-                <whether-or-not-select v-model="info.isAssociate"></whether-or-not-select>
-            </el-form-item>
-        </el-col>
-
-        <el-col :span="12" v-if="info.templateType === 'zjj' || info.templateType === 'fd'">
-            <el-form-item prop="hasExportAndActive">
-          <span slot="label">
-            导出与归档
-            <el-tooltip content="是否包含导出与归档代码" placement="top">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </span>
-                <whether-or-not-select v-model="info.hasExportAndActive"></whether-or-not-select>
-            </el-form-item>
-        </el-col>
-
-        <el-col :span="12" v-if="false">
-            <el-form-item prop="isProcess">
-          <span slot="label">
-            是否所属流程
-            <el-tooltip content="流程业务将会包含流程相关的详细、审核、驳回等代码" placement="top">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
-          </span>
+      <el-col :span="12" v-if="false">
+          <el-form-item prop="isProcess">
+              <span slot="label">
+                是否所属流程
+                <el-tooltip content="流程业务将会包含流程相关的详细、审核、驳回等代码" placement="top">
+                  <i class="el-icon-question"></i>
+                </el-tooltip>
+              </span>
                 <whether-or-not-select v-model="info.isProcess"></whether-or-not-select>
             </el-form-item>
-        </el-col>
+      </el-col>
 
       <el-col :span="24" v-if="info.genType == '1'">
         <el-form-item prop="genPath">

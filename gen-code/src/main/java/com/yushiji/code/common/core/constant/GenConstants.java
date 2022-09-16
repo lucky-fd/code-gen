@@ -31,9 +31,9 @@ public class GenConstants {
     public static final String PLUS_TYPE = "plus";
 
     /**
-     * 品诺
+     * 自定义
      * */
-    public static final String pinuc_TYPE = "pinuc";
+    public static final String CUSTOM_TYPE = "custom";
 
     /**
      * 树编码字段

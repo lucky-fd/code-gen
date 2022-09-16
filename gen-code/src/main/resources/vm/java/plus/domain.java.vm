@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 /**
  * ${functionName} 实体 ${tableName}
  *
- * @author zwh
+ * @author ${author}
  * @since  ${datetime}
  */
 #if($table.crud || $table.sub)

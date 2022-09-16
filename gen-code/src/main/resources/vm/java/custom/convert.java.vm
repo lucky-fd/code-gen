@@ -6,9 +6,10 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 /**
- * 审批类型转换类
+ * 类型转换类
  *
- * @author zwh
+ * @author ${author}
+ * @date ${datetime}
  */
 @Mapper
 public interface ${ClassName}Convert {

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 审批类型转换类
  *
- * @author zwh
+ * @author ${author}
  */
 @Mapper
 public interface ${ClassName}Convert {

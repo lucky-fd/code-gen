@@ -18,17 +18,5 @@ import ${packageName}.domain.${subClassName};
  */
 @Mapper
 public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
-    /**
-     * 通过id进行查询
-     * @param ${pkColumn.javaField} id
-     * @return res
-     */
-    ${ClassName} select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
 
-    /**
-     * 条件查询
-     * @param ${className} 查询类
-     * @return res
-     */
-    List<${ClassName}> select${ClassName}List(${ClassName}ReqVo ${className});
 }

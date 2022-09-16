@@ -11,43 +11,42 @@ import ${packageName}.domain.${ClassName};
  * @date ${datetime}
  */
 public interface I${ClassName}Service {
-   /**
-    * 新增
-    * @return 是否成功
-    */
+
+    /**
+     * 新增
+     * @return 是否成功
+     */
     int insert(${ClassName} ${className});
 
-
-
-   /**
-    * 删除
-    * @return 是否成功
-    */
+    /**
+     * 删除
+     * @return 是否成功
+     */
     int deleteBy${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
 
-   /**
-    * 删除_批量
-    * @return 成功数量
-    */
+    /**
+     * 删除_批量
+     * @return 成功数量
+     */
     int deleteBy${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s);
 
-   /**
-    * 修改
-    * @return 是否成功
-    */
+    /**
+     * 修改
+     * @return 是否成功
+     */
     public int update(${ClassName} ${className});
 
-  /**
-   * 主键查询
-   * @return 目标数据
-   */
-    ${ClassName} selectBy${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
+    /**
+     * 主键查询
+     * @return 目标数据
+     */
+        ${ClassName} selectBy${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField});
 
-   /**
-    * 条件查询
-    * @return res
-    */
-   List<${ClassName}> selectList(${ClassName} ${className});
+    /**
+     * 条件查询
+     * @return res
+     */
+    List<${ClassName}> selectList(${ClassName} ${className});
 
     /**
      * 新增一条数据
@@ -59,19 +58,5 @@ public interface I${ClassName}Service {
      */
     public List<${ClassName}> select${ClassName}List(${ClassName} ${className});
 
-    /**
-     * 存档
-     */
-    public void archive(${pkColumn.javaType}[] ${pkColumn.javaField}s);
-
-    /**
-     * 取消存档
-     */
-    public void cancelArchive(${pkColumn.javaType}[] ${pkColumn.javaField}s);
-
-    /**
-     * 导出Excel
-     */
-    public void exportExcel(List<${ClassName}> resultList);
 
 }

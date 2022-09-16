@@ -1,15 +1,27 @@
 package ${packageName}.domain;
 
-import com.pinuc.online.common.entity.model.PoJoModel;
+#foreach ($import in $importList)
+import ${import};
+#end
+#if($table.crud || $table.sub)
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.yuanchen.bigdata.longna.data.entity.base.BaseEntityPlus;
+#elseif($table.tree)
+#end
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * ${functionName} model实体
+ * ${functionName} 实体 ${tableName}
  *
  * @author ${author}
- * @since  ${datetime}
+ * @date ${datetime}
  */
 #if($table.crud || $table.sub)
     #set($Entity="BaseEntityPlus")
@@ -17,15 +29,17 @@ import lombok.EqualsAndHashCode;
     #set($Entity="TreeEntity")
 #end
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class ${ClassName}Model extends PoJoModel {
-
+@TableName("${tableName}")
+@ApiModel("${functionName}")
+public class ${ClassName} extends ${Entity}{
+    private static final long serialVersionUID=1L;
 
 #foreach ($column in $columns)
     #if(!$table.isSuperColumn($column.javaField))
     /**
      * $column.columnComment
      */
+    @ApiModelProperty("$column.columnComment")
     #if($column.list)
         #set($parentheseIndex=$column.columnComment.indexOf("（"))
         #if($parentheseIndex != -1)

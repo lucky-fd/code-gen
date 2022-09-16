@@ -2,7 +2,6 @@ package ${packageName}.domain.vo;
 
 #foreach ($import in $importList)
 import ${import};
-import com.ci.erp.common.mybatis.domain.vo.BaseDto;
 #end
 import lombok.Data;
 
@@ -10,11 +9,11 @@ import lombok.Data;
 /**
  * ${functionName} vo ${tableName}
  *
- * @author zwh
+ * @author ${author}
  * @since  ${datetime}
  */
 @Data
-public class ${ClassName}ReqVo extends BaseDto{
+public class ${ClassName}ReqVo {
     private static final long serialVersionUID=1L;
 
     #foreach ($column in $columns)

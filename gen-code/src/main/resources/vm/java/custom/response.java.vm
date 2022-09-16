@@ -1,34 +1,19 @@
-package ${packageName}.domain;
+package ${packageName}.domain.vo;
 
 #foreach ($import in $importList)
 import ${import};
 #end
-#if($table.crud || $table.sub)
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.ci.erp.common.mybatis.domain.BaseEntityPlus;
-#elseif($table.tree)
-#end
 import lombok.Data;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 /**
- * ${functionName} 实体 ${tableName}
+ * ${functionName} vo ${tableName}
  *
- * @author zwh
- * @since  ${datetime}
+ * @author ${author}
+ * @date ${datetime}
  */
-#if($table.crud || $table.sub)
-    #set($Entity="BaseEntityPlus")
-#elseif($table.tree)
-    #set($Entity="TreeEntity")
-#end
 @Data
-@TableName("${tableName}")
-public class ${ClassName} extends ${Entity}{
+public class ${ClassName}RespVo{
     private static final long serialVersionUID=1L;
 
 #foreach ($column in $columns)
@@ -44,8 +29,8 @@ public class ${ClassName} extends ${Entity}{
             #set($comment=$column.columnComment)
         #end
     #end
-    #if($column.columnName == $pkColumn.columnName)
-    @TableId(type = IdType.ASSIGN_ID)
+    #if($column.javaType == "Date"||$column.javaType == "LocalDateTime")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     #end
     private $column.javaType $column.javaField;
     #end
@@ -57,4 +42,5 @@ public class ${ClassName} extends ${Entity}{
 private List<${subClassName}> ${subclassName}List;
 
 #end
+
 }

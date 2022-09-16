@@ -139,8 +139,8 @@ public class VelocityUtils {
     public static List<String> getTemplateList(String tplCategory, String templateType) {
         if (GenConstants.PLUS_TYPE.equals(templateType)) {
             return getPlusTemplate(tplCategory);
-        } else if (GenConstants.pinuc_TYPE.equals(templateType)) {
-            return getPinucTemplate(tplCategory);
+        } else if (GenConstants.CUSTOM_TYPE.equals(templateType)) {
+            return getCustomTemplate(tplCategory);
         } else {
             return getBaseTemplate(tplCategory);
         }
@@ -148,34 +148,17 @@ public class VelocityUtils {
 
     /**
      *
-     * 仕硕
+     * 自定义模板
      * */
-    private static List<String> getLongNaTemplate(String tplCategory) {
+    private static List<String> getCustomTemplate(String tplCategory) {
         List<String> templates = new ArrayList<>();
-        templates.add("vm/java/longna/domain.java.vm");
-        templates.add("vm/java/longna/response.java.vm");
-        templates.add("vm/java/longna/convert.java.vm");
-        templates.add("vm/java/longna/mapper.java.vm");
-        templates.add("vm/java/longna/service.java.vm");
-        templates.add("vm/java/longna/serviceImpl.java.vm");
-        templates.add("vm/java/longna/controller.java.vm");
-        templates.add("vm/xml/plus/mapper.xml.vm");
-        templates.add("vm/sql/sql.vm");
-        return templates;
-    }
-
-    /**
-     *
-     * 品诺
-     * */
-    private static List<String> getPinucTemplate(String tplCategory) {
-        List<String> templates = new ArrayList<>();
-        templates.add("vm/java/pinuc/model.java.vm");
-        templates.add("vm/java/pinuc/pojo.java.vm");
-        templates.add("vm/java/pinuc/mapper.java.vm");
-        templates.add("vm/java/pinuc/service.java.vm");
-        templates.add("vm/java/pinuc/serviceImpl.java.vm");
-        templates.add("vm/java/pinuc/controller.java.vm");
+        templates.add("vm/java/custom/domain.java.vm");
+        templates.add("vm/java/custom/convert.java.vm");
+        templates.add("vm/java/custom/response.java.vm");
+        templates.add("vm/java/custom/mapper.java.vm");
+        templates.add("vm/java/custom/service.java.vm");
+        templates.add("vm/java/custom/serviceImpl.java.vm");
+        templates.add("vm/java/custom/controller.java.vm");
         templates.add("vm/xml/plus/mapper.xml.vm");
         templates.add("vm/sql/sql.vm");
         return templates;

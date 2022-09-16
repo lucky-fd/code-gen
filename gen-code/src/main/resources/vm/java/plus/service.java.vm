@@ -14,7 +14,7 @@ import com.ci.erp.common.core.web.page.TableDataInfo;
  * @author ${author}
  * @since  ${datetime}
  */
-public interface I${ClassName}Service extends #if($isProcess)IFlowService<${ClassName}>#else IService<${ClassName}> #end{
+public interface I${ClassName}Service extends IService<${ClassName}> {
 
     /**
      * 主键查询
@@ -37,11 +37,4 @@ public interface I${ClassName}Service extends #if($isProcess)IFlowService<${Clas
     */
     void export(${ClassName}ReqVo ${className},HttpServletResponse response);
 
-    #if($isProcess)
-    /**
-     * 发起流程审批
-     * @param id id
-     */
-    void submitAudit(String id);
-    #end
 }

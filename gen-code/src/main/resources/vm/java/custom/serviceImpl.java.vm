@@ -1,14 +1,15 @@
 package ${packageName}.service.impl;
 
+import java.util.List;
+
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import com.ci.erp.common.mybatis.service.impl.ServiceImplPlus;
-import com.ci.erp.common.core.web.page.TableDataInfo;
 #if($isProcess)
+import io.seata.spring.annotation.GlobalTransactional;
 import com.ci.erp.common.process.enums.EmCommonProcessStatus;
 import org.apache.commons.collections.CollectionUtils;
 import com.ci.erp.common.core.constant.ProcessConstants;
-import io.seata.spring.annotation.GlobalTransactional;
 import com.ci.erp.common.core.exception.ServiceException;
 import com.ci.erp.common.core.utils.StringUtils;
 import com.ci.erp.common.core.enums.ResCode;
@@ -17,6 +18,7 @@ import static com.ci.erp.api.process.domain.dto.ProcessCommitReqDto.*;
 import static com.ci.erp.common.process.constant.ProcessConstant.*;
 #end
 #if($table.sub)
+import org.springframework.transaction.annotation.Transactional;
 import ${packageName}.domain.${subClassName};
 #end
 /**

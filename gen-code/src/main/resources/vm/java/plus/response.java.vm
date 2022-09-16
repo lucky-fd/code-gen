@@ -9,7 +9,7 @@ import lombok.Data;
 /**
  * ${functionName} vo ${tableName}
  *
- * @author zwh
+ * @author ${author}
  * @since  ${datetime}
  */
 @Data

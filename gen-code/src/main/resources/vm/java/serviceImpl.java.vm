@@ -46,6 +46,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
     public int insert(${ClassName} ${className}) {
         return ${className}Mapper.insert(${className});
     }
+
     @Override
     public int update(${ClassName} ${className}) {
         return ${className}Mapper.update(${className});
@@ -58,6 +59,7 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
 ##        #end
         return ${className}Mapper.deleteBy${pkColumn.capJavaField}(${pkColumn.javaField});
     }
+
     @Override
     public int deleteBy${pkColumn.capJavaField}s(${pkColumn.javaType}[] ${pkColumn.javaField}s) {
         return ${className}Mapper.deleteBy${pkColumn.capJavaField}s(${pkColumn.javaField}s);
@@ -95,42 +97,4 @@ public class ${ClassName}ServiceImpl implements I${ClassName}Service
         return this.selectList(${className});
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void archive(${pkColumn.javaType}[] ${pkColumn.javaField}s) {
-        for(String  ${pkColumn.javaField} :${pkColumn.javaField}s){
-            ${ClassName}  ${className} = new ${ClassName}();
-            ${className}.set${pkColumn.capJavaField}(${pkColumn.javaField});
-            ${className}.setActive(false);
-            ${className}Mapper.update(${className});
-        }
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void cancelArchive(${pkColumn.javaType}[] ${pkColumn.javaField}s) {
-        for(String  ${pkColumn.javaField} :${pkColumn.javaField}s){
-            ${ClassName}  ${className} = new ${ClassName}();
-            ${className}.set${pkColumn.capJavaField}(${pkColumn.javaField});
-            ${className}.setActive(true);
-            ${className}Mapper.update(${className});
-        }
-    }
-
-    public void exportExcel(List<${ClassName}> ${className}List) {
-
-        //创建数据容器
-        List<${ClassName}Export> excelDataList = new ArrayList<>();
-
-        for (${ClassName} item : ${className}List) {
-            ${ClassName}Export rowData = new ${ClassName}Export();
-
-            //todo 为rowData设置值
-
-            excelDataList.add(rowData);
-        }
-
-        //生成Excel实体类类别
-        new ExcelUtil<>(${ClassName}Export.class).httpExportExcel(excelDataList,"${businessName}");
-    }
 }

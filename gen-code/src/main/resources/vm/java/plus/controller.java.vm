@@ -1,10 +1,9 @@
 package ${packageName}.controller;
 
+import com.ci.erp.common.core.domain.R;
+
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
-
-import com.ci.erp.common.core.domain.R;
-import com.ci.erp.common.security.annotation.RequiresPermissions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.ci.erp.common.log.annotation.Log;
-import com.ci.erp.common.log.enums.BusinessType;
+
 import ${packageName}.domain.${ClassName};
 import ${packageName}.domain.vo.${ClassName}ReqVo;
 import ${packageName}.service.I${ClassName}Service;
-import com.ci.erp.common.core.web.controller.BaseController;
 #if($table.crud || $table.sub)
 import com.ci.erp.common.core.web.page.TableDataInfo;
 #elseif($table.tree)
@@ -35,7 +32,7 @@ import com.ci.erp.common.core.web.page.TableDataInfo;
 @RestController
 @RequestMapping("/${businessName}")
 @RequiredArgsConstructor
-public class ${ClassName}Controller extends BaseController {
+public class ${ClassName}Controller {
 
     private final I${ClassName}Service ${className}Service;
 
@@ -45,7 +42,6 @@ public class ${ClassName}Controller extends BaseController {
      * @param ${className} 查询条件
      * @return 分页信息
      */
-    @Log(title = "${functionName}", businessType = BusinessType.LIST)
     @GetMapping("/list")
     public TableDataInfo list(${ClassName}ReqVo ${className}) {
         startPage();
@@ -57,7 +53,6 @@ public class ${ClassName}Controller extends BaseController {
      * 获取详细信息
      * @param ${pkColumn.javaField} id
      */
-    @Log(title = "${functionName}", businessType = BusinessType.LIST)
     @GetMapping(value = "/getById/{${pkColumn.javaField}}")
     public R< ${ClassName}RespVo> getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
         return R.ok(${className}Service.selectBy${pkColumn.capJavaField}(${pkColumn.javaField}));
@@ -67,7 +62,6 @@ public class ${ClassName}Controller extends BaseController {
      * 新增
      * @param ${className} 新增内容
      */
-    @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     @PostMapping("/save")
     public R<?> save(@RequestBody ${ClassName} ${className}) {
         ${className}Service.saveOrUpdate(${className});
@@ -78,7 +72,6 @@ public class ${ClassName}Controller extends BaseController {
      * 新增
      * @param ${className} 新增内容
      */
-    @Log(title = "${functionName}", businessType = BusinessType.INSERT)
     @PostMapping("/saveBatch")
     public R<?> saveBatch(@RequestBody List<${ClassName}> ${className}) {
         ${className}Service.saveBatch(${className});
@@ -88,7 +81,6 @@ public class ${ClassName}Controller extends BaseController {
     /**
      * 删除
      */
-    @Log(title = "${functionName}", businessType = BusinessType.DELETE)
     @PostMapping("/delete")
     public R<?> remove(@RequestBody List<${pkColumn.javaType}> ${pkColumn.javaField}s) {
         ${className}Service.removeBatchByIds(${pkColumn.javaField}s);
@@ -98,55 +90,9 @@ public class ${ClassName}Controller extends BaseController {
     /**
      * 导出
      */
-    @Log(title = "${functionName}-导出", businessType = BusinessType.EXPORT)
     @PostMapping(value = "/export")
     public void export(@RequestBody ${ClassName}ReqVo ${className},HttpServletResponse response) {
         ${className}Service.export(${className},response);
     }
-
-    #if($isProcess)
-        /**
-         * 提交审核
-         */
-        @Log(title = "${functionName}-提交审核", businessType = BusinessType.UPDATE)
-        @PostMapping(value = "/startProcess")
-        public R<?> startProcess(@RequestBody String backId) {
-            ${className}Service.submitAudit(backId);
-            return R.ok("提交审批成功!");
-        }
-
-        /**
-         * 流程取消
-         */
-        @Log(title = "${functionName}-审批驳回", businessType = BusinessType.AUDIT)
-        @PostMapping(value = "/reject")
-        public R<?> reject(@RequestBody CommonFlowCommit commit) {
-            ${className}Service.rejectOperation(commit);
-            return R.ok("审批驳回成功!");
-        }
-
-
-        /**
-         * 审批通过
-         */
-        @Log(title = "${functionName}-审批通过", businessType = BusinessType.AUDIT)
-        @PostMapping(value = "/agree")
-        public R<?> agree(@RequestBody CommonFlowCommit commit) {
-            ${className}Service.agreeOperation(commit);
-            return R.ok("审批通过成功!");
-        }
-
-        /**
-         * 审批驳回
-         */
-        @Log(title = "${functionName}-审批个人取消", businessType = BusinessType.AUDIT)
-        @PostMapping(value = "/cancel")
-        public R<?> cancel(@RequestBody CommonFlowCommit commit) {
-            ${className}Service.sponsorRejectOperation(commit);
-            return R.ok("审批个人取消成功!");
-        }
-
-
-    #end
 
 }

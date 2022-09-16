@@ -99,7 +99,7 @@
                             </el-select>
                         </template>
                     </el-table-column>
-                    <el-table-column label="字典类型" min-width="12%">
+                    <el-table-column label="字典类型" min-width="12%" v-if="false">
                         <template slot-scope="scope">
                             <el-select v-model="scope.row.dictType" clearable filterable placeholder="请选择">
                                 <el-option
@@ -177,9 +177,9 @@ export default {
                 this.tables = res.data.tables;
             });
             /** 查询字典下拉列表 */
-            getDictOptionselect().then(response => {
-                this.dictOptions = response.data;
-            });
+            // getDictOptionselect().then(response => {
+            //     this.dictOptions = response.data;
+            // });
             // /** 查询菜单下拉列表 */
             // getMenuTreeselect().then(response => {
             //     this.menus = this.handleTree(response.data, "menuId");
