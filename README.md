@@ -31,10 +31,72 @@ Code-Gen 是一款高效、灵活的前后端代码生成工具，基于 SpringB
 **系统要求**
 - Java 1.8 或更高版本
 - Maven 3.0 或更高版本
-- MySQL(8.x) 或 PostgreSQL(12.x及以上) 数据库
+- MySQL 或 PostgreSQL 数据库
 
 
 ## 快速开始
+
+1. 克隆项目到本地
+```bash
+git clone https://gitee.com/lucky-fd/code-gen.git
+```
+2. 后端gen-code启动，进入src/main/resources/application.yml，修改配置文件
+
+> 配置项目数据库类型，目前仅支持mysql、postgresql
+> ```aidl
+> # 数据库支持 mysql postgresql。
+> gen:
+>  author: lucky_fd
+>  database-type: mysql # 支持mysql、postgresql。选择数据库类型后，还需要配置相应数据库的数据源
+>```
+> 配置数据库类型后，更改数据源为自己的配置
+> ```aidl
+> # mysql 数据源配置
+> spring:
+> datasource:
+> driver-class-name: com.mysql.cj.jdbc.Driver
+> url: jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+> username: root
+> password: mysql123.
+> 
+> # postgresql 数据源配置
+> #spring:
+> #  datasource:
+> #    driver-class-name: org.postgresql.Driver
+> #    url: jdbc:postgresql://127.0.0.1:5432/gen_code?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+> #    username: postgres
+> #    password: 123456
+> ```
+> 导入代码生成相关的sql表到配置的数据库中，数据库表sql导入文件在doc目录下
+> 
+> 启动后台SpringBoot项目，控制台显示以下信息代表启动成功
+> ```aidl
+> (♥◠‿◠)ﾉﾞ  代码生成模块启动成功   ლ(´ڡ`ლ)ﾞ
+>```
+
+
+3. 前台项目启动，进入gen-ui目录
+
+> 运行 npm install 命令，安装vue相关依赖（需提前装好node.js）
+> 
+> 运行启动项目命令 npm run dev
+> 
+> 
+
+4. 在ui界面，点击导入会显示数据库中所有未导入的表信息，选择需要生成业务代码的表，导入到项目中。
+然后就可以在ui界面看到导入的表信息，我们可以编辑生成业务代码的一些配置信息，配置完可以点预览查看代码生成效果。
+
+![主页](./doc/image/index.png)
+
+![导入界面](./doc/image/导入界面.png)
+
+![代码预览](./doc/image/代码预览1.png)
+
+我们可以下载代码到本地，也可以直接在预览界面复制代码。
+
+## 项目效果
+
+
 
 
 ## 贡献指南
@@ -44,8 +106,10 @@ Code-Gen 是一款高效、灵活的前后端代码生成工具，基于 SpringB
 2. 创建您的特性分支 (git checkout -b my-new-feature)
 3. 提交您的更改 (git commit -am 'Add some feature')
 4. 推送到分支 (git push origin my-new-feature)
-5. 创建新的 Pull Request
+5. 创建新的 Pull Request，提交到master分支
+6. 等待作者合并
 
 
 ## 致谢
 感谢所有使用和贡献 Code-Gen 的开发者！你们的反馈和建议是项目不断进步的动力。
+

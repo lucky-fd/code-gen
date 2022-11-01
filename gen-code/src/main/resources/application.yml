@@ -5,7 +5,7 @@ server:
 # 数据库支持 mysql postgresql
 gen:
   author: lucky_fd
-  database-type: mysql # 选择数据库类型后，还需要配置相应数据库的数据源
+  database-type: mysql # 支持mysql、postgresql。选择数据库类型后，还需要配置相应数据库的数据源
 
 
 # mysql 数据源配置

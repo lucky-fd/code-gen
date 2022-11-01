@@ -43,7 +43,7 @@
         <el-form-item prop="moduleName">
           <span slot="label">
             生成模块名
-            <el-tooltip content="可理解为子系统名，例如 system" placement="top">
+            <el-tooltip content="可理解为子系统名，例如 system。没有可不管" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
@@ -55,7 +55,7 @@
         <el-form-item prop="businessName">
           <span slot="label">
             生成业务名
-            <el-tooltip content="可理解为功能英文名，例如 user。用作" placement="top">
+            <el-tooltip content="可理解为功能英文名，例如 user。用作请求路径或前端方法名" placement="top">
               <i class="el-icon-question"></i>
             </el-tooltip>
           </span>
