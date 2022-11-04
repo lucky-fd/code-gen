@@ -77,7 +77,7 @@ git clone https://gitee.com/lucky-fd/code-gen.git
 
 3. 前台项目启动，进入gen-ui目录
 
-> 运行 npm install 命令，安装vue相关依赖（需提前装好node.js）
+> 运行 npm install 命令，安装vue相关依赖（需提前装好node.js  [Node.js下载安装教程](https://blog.csdn.net/WHF__/article/details/129362462)）
 > 
 > 运行启动项目命令 npm run dev
 > 
