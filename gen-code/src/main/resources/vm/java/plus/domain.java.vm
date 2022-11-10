@@ -7,7 +7,7 @@ import ${import};
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.ci.erp.common.mybatis.domain.BaseEntityPlus;
+import com.yushi.blog.common.mybatisplus.entity.PoJo;
 #elseif($table.tree)
 #end
 import lombok.Data;
@@ -27,8 +27,9 @@ import java.time.LocalDateTime;
     #set($Entity="TreeEntity")
 #end
 @Data
+@EqualsAndHashCode(callSuper = true)
 @TableName("${tableName}")
-public class ${ClassName} extends ${Entity}{
+public class ${ClassName} extends PoJo<${ClassName}>{
     private static final long serialVersionUID=1L;
 
 #foreach ($column in $columns)
