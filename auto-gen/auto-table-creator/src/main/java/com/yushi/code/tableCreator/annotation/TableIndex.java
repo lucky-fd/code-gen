@@ -1,6 +1,6 @@
 package com.yushi.code.tableCreator.annotation;
 
-import io.github.ramerf.wind.core.domain.Sort.Direction;
+import com.yushi.code.tableCreator.domain.Sort;
 
 import java.lang.annotation.*;
 
@@ -14,34 +14,49 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface TableIndex {
-  /**
-   * 索引前缀.默认为 {@code idx_table_name}
-   *
-   * <p>{@code name}不为空时该值无效
-   */
-  String prefix() default "";
+    /**
+     * 索引前缀.默认为 {@code idx_table_name}
+     *
+     * <p>{@code name}不为空时该值无效
+     */
+    String prefix() default "";
 
-  Index[] value();
+    Index[] value();
 
-  @interface Index {
-    /** 名称.默认为 {@code prefix + indexField},下划线分割 */
-    String name() default "";
-    /** 是否唯一索引. */
-    boolean unique() default false;
-    /** 索引字段. */
-    IndexField[] indexFields();
-    /** 备注. */
-    String comment() default "";
-  }
+    @interface Index {
+        /**
+         * 名称.默认为 {@code prefix + indexField},下划线分割
+         */
+        String name() default "";
 
-  @interface IndexField {
+        /**
+         * 是否唯一索引.
+         */
+        boolean unique() default false;
 
-    /** java属性名. */
-    String field();
+        /**
+         * 索引字段.
+         */
+        IndexField[] indexFields();
 
-    int length() default -1;
+        /**
+         * 备注.
+         */
+        String comment() default "";
+    }
 
-    /** 索引规则. */
-    Direction direction() default Direction.ASC;
-  }
+    @interface IndexField {
+
+        /**
+         * java属性名.
+         */
+        String field();
+
+        int length() default -1;
+
+        /**
+         * 索引规则.
+         */
+        Sort.Direction direction() default Sort.Direction.ASC;
+    }
 }

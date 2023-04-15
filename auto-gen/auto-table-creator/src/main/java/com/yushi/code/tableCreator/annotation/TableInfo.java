@@ -1,8 +1,6 @@
 package com.yushi.code.tableCreator.annotation;
 
-import io.github.ramerf.wind.core.config.Configuration;
-import io.github.ramerf.wind.core.support.IdGenerator;
-import io.github.ramerf.wind.core.support.IdGenerator.VoidIdGenerator;
+import com.yushi.code.tableCreator.support.IdGenerator;
 
 import java.lang.annotation.*;
 
@@ -23,9 +21,6 @@ public @interface TableInfo {
   /** 备注. */
   String comment() default "";
 
-  /** 支持逻辑删除. */
-  LogicDelete logicDelete() default @LogicDelete(enable = false);
-
   /** id生成器,默认使用全局配置.该值会覆盖全局配置 */
-  Class<? extends IdGenerator> idGenerator() default VoidIdGenerator.class;
+  Class<? extends IdGenerator> idGenerator() default IdGenerator.VoidIdGenerator.class;
 }
