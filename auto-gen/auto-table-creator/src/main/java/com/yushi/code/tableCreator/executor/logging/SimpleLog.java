@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
  * The type Simple log.
  *
  * @since 2022.02.26
- * @author ramer
+ * @author fdong
  */
 @ToString
 public class SimpleLog implements Log {

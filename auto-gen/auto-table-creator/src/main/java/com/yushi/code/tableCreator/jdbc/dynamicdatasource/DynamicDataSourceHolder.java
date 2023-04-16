@@ -27,7 +27,7 @@ import java.util.Deque;
  * <p>基于ThreadLocal的切换数据源工具类
  *
  * @since 2022.03.20
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public final class DynamicDataSourceHolder {

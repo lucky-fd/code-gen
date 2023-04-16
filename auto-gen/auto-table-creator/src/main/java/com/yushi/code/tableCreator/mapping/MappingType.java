@@ -32,7 +32,7 @@ import java.lang.reflect.Type;
  *  }
  * }
  *
- * @author ramer
+ * @author fdong
  * @since 2020.09.19
  */
 public enum MappingType {

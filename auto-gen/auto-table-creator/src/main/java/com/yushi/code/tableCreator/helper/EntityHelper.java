@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * The type Entity helper.
  *
- * @author ramer
+ * @author fdong
  * @since 2020 /5/12
  */
 @Slf4j

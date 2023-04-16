@@ -25,7 +25,7 @@ import java.util.Set;
  * The type Wind application.
  *
  * @since 2022.03.19
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class WindApplication {

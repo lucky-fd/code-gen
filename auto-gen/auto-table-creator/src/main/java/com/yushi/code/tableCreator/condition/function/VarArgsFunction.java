@@ -5,7 +5,7 @@ package com.yushi.code.tableCreator.condition.function;
  *
  * @param <T> the type parameter
  * @param <R> the type parameter
- * @author ramer
+ * @author fdong
  */
 @FunctionalInterface
 public interface VarArgsFunction<T, R> {

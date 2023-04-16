@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 /**
  * 列信息.
  *
- * @author ramer
+ * @author fdong
  * @since 21/07/2020
  */
 @Documented

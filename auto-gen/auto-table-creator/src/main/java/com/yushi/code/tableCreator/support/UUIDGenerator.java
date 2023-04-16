@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  * {@link UUID#randomUUID()}.
  *
- * @author ramer
+ * @author fdong
  * @since 2022.01.03
  */
 public class UUIDGenerator implements IdGenerator {

@@ -11,7 +11,7 @@ import static com.yushi.code.tableCreator.condition.Condition.SqlOperator.*;
 /**
  * The type Sql helper.
  *
- * @author ramer
+ * @author fdong
  * @since 2020 /1/13
  */
 @Slf4j

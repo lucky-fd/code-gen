@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 用于bean属性setter {@link SetterFunction}/getter {@link GetterFunction}方法 函数式接口
  *
- * @author ramer
+ * @author fdong
  * @since 2020 5/5
  * @see SetterFunction
  * @see GetterFunction

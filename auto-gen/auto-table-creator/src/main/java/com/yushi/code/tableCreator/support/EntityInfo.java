@@ -20,7 +20,7 @@ import java.util.*;
 /**
  * 实体信息.
  *
- * @author ramer
+ * @author fdong
  * @since 2020/7/24
  */
 @Data

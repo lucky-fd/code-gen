@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
  * 数据源异常.
  *
  * @since 2022.02.26
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class DataSourceException extends WindException {

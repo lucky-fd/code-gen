@@ -9,7 +9,7 @@ import java.sql.SQLException;
  * The type Abstract result handler.
  *
  * @since 2020 /4/6
- * @author ramer
+ * @author fdong
  * @param <T> 数据库返回对象
  * @param <E> 实际返回对象
  */

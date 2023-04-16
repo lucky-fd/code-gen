@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * 基于 {@link Cnd} 的分组.
  *
- * @author ramer
+ * @author fdong
  * @since 24/11/2020
  */
 public class CndGroup<T> extends AbstractCndGroup<T, CndGroup<T>, Cnd<T>>

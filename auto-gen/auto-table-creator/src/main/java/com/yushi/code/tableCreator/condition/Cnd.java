@@ -19,7 +19,7 @@ import static io.github.ramerf.wind.core.helper.SqlHelper.toPreFormatSqlVal;
  * Lambda条件构造.
  *
  * @since 2019/12/26
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class Cnd<T> extends AbstractCnd<T, Cnd<T>> implements ILambdaCondition<T, Cnd<T>> {

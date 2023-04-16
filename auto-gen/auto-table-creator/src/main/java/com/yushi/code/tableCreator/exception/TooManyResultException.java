@@ -4,7 +4,7 @@ package com.yushi.code.tableCreator.exception;
  * 未返回期望的结果数量.
  *
  * @since 2021.01.31
- * @author ramer
+ * @author fdong
  */
 public class TooManyResultException extends DataAccessException {
   private final int count;

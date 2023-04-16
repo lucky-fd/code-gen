@@ -13,7 +13,7 @@ import static com.yushi.code.tableCreator.helper.SqlHelper.toPreFormatSqlVal;
 /**
  * 条件构造.
  *
- * @author ramer
+ * @author fdong
  * @since 2019/12/26
  */
 @Slf4j

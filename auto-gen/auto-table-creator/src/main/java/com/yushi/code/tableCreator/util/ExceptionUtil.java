@@ -20,7 +20,7 @@ import java.lang.reflect.UndeclaredThrowableException;
  * Copy from {@link org.apache.ibatis.reflection.ExceptionUtil}.
  *
  * @since 2022.04.04
- * @author ramer
+ * @author fdong
  */
 public class ExceptionUtil {
 

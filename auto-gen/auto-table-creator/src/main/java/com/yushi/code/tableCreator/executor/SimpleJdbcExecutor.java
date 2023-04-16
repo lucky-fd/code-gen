@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * The simple jdbc executor.
  *
- * @author ramer
+ * @author fdong
  * @since 2022.03.19
  */
 public class SimpleJdbcExecutor extends BaseExecutor implements Executor {

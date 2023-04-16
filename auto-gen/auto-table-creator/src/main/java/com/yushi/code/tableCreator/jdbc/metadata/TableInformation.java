@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 数据库表映射信息,包含列名.
  *
- * @author ramer
+ * @author fdong
  * @since 2020.08.20
  */
 @Data

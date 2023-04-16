@@ -26,7 +26,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * The type Bean utils.
  *
- * @author ramer
+ * @author fdong
  * @since 2019 /12/26
  */
 @Slf4j

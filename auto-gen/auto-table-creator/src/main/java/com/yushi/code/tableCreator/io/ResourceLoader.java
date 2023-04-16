@@ -3,7 +3,7 @@ package com.yushi.code.tableCreator.io;
 import javax.annotation.Nullable;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 2022.05.29
  */
 public interface ResourceLoader {

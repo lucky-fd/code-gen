@@ -21,7 +21,7 @@ import java.util.zip.ZipException;
  * The type Resource utils.
  *
  * @since 2022.01.13
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class ResourceResolver {

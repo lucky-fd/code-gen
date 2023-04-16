@@ -6,7 +6,7 @@ import io.github.ramerf.wind.core.jdbc.session.TransactionIsolationLevel;
 import java.sql.Connection;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 2022.03.12
  */
 public interface DaoFactory {

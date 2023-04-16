@@ -7,7 +7,7 @@ import com.yushi.code.tableCreator.handler.ResultHandler;
 import javax.annotation.Nullable;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 30/08/2021
  */
 public final class ResultHandlerUtil {

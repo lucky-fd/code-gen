@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * @param <CONDITION_GROUP> 当前对象
  * @param <CONDITION> 当前对象持有的{@link Condition}对象
  * @since 2021.08.15
- * @author ramer
+ * @author fdong
  */
 public abstract class AbstractCndGroup<
         POJO,

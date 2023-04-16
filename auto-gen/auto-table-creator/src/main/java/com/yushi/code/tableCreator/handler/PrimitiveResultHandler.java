@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * 基本类型结果转换,注意该类使用valueOf转换值,如果没有该方法将会报错.
  *
  * @param <E> the type parameter
- * @author ramer
+ * @author fdong
  * @since 2019 /12/27
  */
 @Slf4j

@@ -26,7 +26,7 @@ import java.util.Objects;
 /**
  * 实体列信息(字段,sqlType).
  *
- * @author ramer
+ * @author fdong
  * @since 13/08/2020
  */
 @Data

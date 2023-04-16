@@ -3,7 +3,7 @@ package com.yushi.code.tableCreator.condition.function;
 /**
  * sql function.
  *
- * @author ramer
+ * @author fdong
  * @since 2020 /4/29
  */
 public interface SqlFunction {

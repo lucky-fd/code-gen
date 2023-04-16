@@ -15,7 +15,7 @@ import java.util.function.Supplier;
  * The interface inter enum.
  *
  * @param <V> the type parameter
- * @author ramer
+ * @author fdong
  * @since 2020 /3/28
  */
 public interface InterEnum<V> extends Serializable {

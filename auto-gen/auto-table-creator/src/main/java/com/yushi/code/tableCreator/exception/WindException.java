@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
  * 全局通用异常.
  *
  * @since 2020.12.22
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class WindException extends RuntimeException {

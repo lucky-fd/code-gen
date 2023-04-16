@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 2022.05.29
  */
 public class DefaultResourceLoader implements ResourceLoader {

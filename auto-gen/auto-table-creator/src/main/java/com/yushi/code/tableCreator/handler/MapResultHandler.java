@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * @since 2021.12.26
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class MapResultHandler extends AbstractResultHandler<Map<String, Object>> {

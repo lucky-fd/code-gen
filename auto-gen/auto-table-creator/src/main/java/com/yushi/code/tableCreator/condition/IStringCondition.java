@@ -6,7 +6,7 @@ import java.util.Collection;
 /**
  * 条件构造.
  *
- * @author ramer
+ * @author fdong
  * @since 2019/12/26
  */
 public interface IStringCondition<T, U extends IStringCondition<T, U>> extends Condition<T, U> {

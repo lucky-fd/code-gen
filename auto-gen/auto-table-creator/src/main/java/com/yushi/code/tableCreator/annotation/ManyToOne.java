@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * 如果没有指定field,默认新增列[下划线分割(类型名)_id],如果没有指定referenceField,默认关联id
  *
  * @since 2020.10.28
- * @author ramer
+ * @author fdong
  */
 @Target({METHOD, FIELD})
 @Retention(RUNTIME)

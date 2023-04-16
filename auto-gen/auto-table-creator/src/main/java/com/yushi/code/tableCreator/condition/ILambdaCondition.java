@@ -12,7 +12,7 @@ import java.util.Collection;
  * @param <T> pojo
  * @param <U> 当前对象
  * @since 15 /08/2021
- * @author ramer
+ * @author fdong
  */
 public interface ILambdaCondition<T, U extends ILambdaCondition<T, U>> extends Condition<T, U> {
   default <V> U eq(@Nonnull SetterFunction<T, V> setter, @Nonnull V value) {

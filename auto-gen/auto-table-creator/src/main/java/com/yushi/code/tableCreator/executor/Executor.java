@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * The executor.
  *
  * @since 2022.03.19
- * @author ramer
+ * @author fdong
  */
 public interface Executor {
   /**

@@ -3,7 +3,7 @@ package com.yushi.code.tableCreator.jdbc;
 import java.sql.Connection;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 2022.03.23
  */
 public interface ConnectionHolder {

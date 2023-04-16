@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * The type Collection utils.
  *
- * @author ramer
+ * @author fdong
  * @since 2019 /12/26
  */
 @SuppressWarnings("unused")

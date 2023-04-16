@@ -20,7 +20,7 @@ import java.util.Date;
  * <li>int 当前时间秒数 值为:{@code System.currentTimeMillis()/1000}
  *
  * @since 2020.11.23
- * @author ramer
+ * @author fdong
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

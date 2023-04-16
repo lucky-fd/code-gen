@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 /**
  * The type String utils.
  *
- * @author ramer
+ * @author fdong
  * @since 2019 /12/27
  */
 @Slf4j

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 2022.03.12
  */
 public interface Dao extends Closeable {

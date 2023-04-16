@@ -5,7 +5,7 @@ import io.github.ramerf.wind.core.config.SnowflakeProp;
 /**
  * 雪花分布式id生成算法.
  *
- * @author ramer
+ * @author fdong
  * @since 2019/11/12
  */
 @SuppressWarnings("all")

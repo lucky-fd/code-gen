@@ -13,7 +13,7 @@ import java.sql.Statement;
  * The type Base executor.
  *
  * @since 2022.02.20
- * @author ramer
+ * @author fdong
  */
 public abstract class BaseExecutor implements Executor {
   protected Transaction transaction;

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * The type Bean utils.
  *
  * @since 2022.02.09
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public final class BeanUtils {

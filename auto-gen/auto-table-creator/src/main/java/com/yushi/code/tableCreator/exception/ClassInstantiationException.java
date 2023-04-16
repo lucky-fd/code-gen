@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
  * 类初始化异常.
  *
  * @since 2022.02.11
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class ClassInstantiationException extends WindException {

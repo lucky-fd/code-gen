@@ -23,7 +23,7 @@ import java.util.*;
  * The type Bean result handler.
  *
  * @since 2019 /12/27
- * @author ramer
+ * @author fdong
  * @param <E> the type parameter
  */
 @Slf4j

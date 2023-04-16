@@ -3,7 +3,7 @@ package com.yushi.code.tableCreator.jdbc.dynamicdatasource;
 import com.yushi.code.tableCreator.exception.WindException;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 2022.03.20
  */
 public class DataSourceNotFoundException extends WindException {

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 分页信息.
  *
- * @author ramer
+ * @author fdong
  * @since 2022.03.05
  */
 public interface Pageable {

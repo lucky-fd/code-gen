@@ -6,7 +6,7 @@ import java.util.Collection;
 /**
  * 基于 {@link StringCnd} 的分组.
  *
- * @author ramer
+ * @author fdong
  * @since 15/08/2021
  */
 public class StringCndGroup<T> extends AbstractCndGroup<T, StringCndGroup<T>, StringCnd<T>>

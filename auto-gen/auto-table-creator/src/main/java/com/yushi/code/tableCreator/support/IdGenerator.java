@@ -5,7 +5,7 @@ import io.github.ramerf.wind.core.exception.WindException;
 /**
  * id生成策略.
  *
- * @author ramer
+ * @author fdong
  * @since 2020 /5/20
  */
 @FunctionalInterface

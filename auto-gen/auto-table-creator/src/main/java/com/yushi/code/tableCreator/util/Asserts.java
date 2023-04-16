@@ -4,7 +4,7 @@ import javax.annotation.Nullable;
 
 /**
  * @since 2022.01.13
- * @author ramer
+ * @author fdong
  */
 public final class Asserts {
   public static void notNull(@Nullable final Object object, final String message) {

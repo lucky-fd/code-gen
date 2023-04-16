@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
  * wind配置.
  *
  * @since 2020/1/14
- * @author ramer
+ * @author fdong
  */
 @Data
 @Slf4j

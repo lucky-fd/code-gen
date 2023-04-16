@@ -12,7 +12,7 @@ import java.nio.channels.ReadableByteChannel;
  * The interface Resource.
  *
  * @since 2022.05.29
- * @author ramer
+ * @author fdong
  */
 public interface Resource {
   boolean exists();

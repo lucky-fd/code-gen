@@ -8,7 +8,7 @@ import com.yushi.code.tableCreator.config.Configuration.TimestampStrategy;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 2022.06.03
  */
 @Data

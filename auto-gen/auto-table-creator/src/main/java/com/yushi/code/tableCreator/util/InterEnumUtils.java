@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toMap;
 /**
  * InterEnum 枚举工具类.
  *
- * @author ramer
+ * @author fdong
  * @since 2019 /12/11
  */
 @Slf4j

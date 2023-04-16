@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
  * 无效的枚举.
  *
  * @since 2021.01.31
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class InvalidEnumException extends WindException {

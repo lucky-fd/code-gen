@@ -28,7 +28,7 @@ import static com.yushi.code.tableCreator.condition.Condition.SqlOperator.*;
  * @param <POJO> the type parameter
  * @param <CONDITION> 当前对象
  * @since 2020.09.16
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public abstract class AbstractCnd<POJO, CONDITION extends AbstractCnd<POJO, CONDITION>>

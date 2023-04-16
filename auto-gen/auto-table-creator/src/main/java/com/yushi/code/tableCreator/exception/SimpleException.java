@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
  * 简单异常,不记录调用栈.
  *
  * @since 2020.12.22
- * @author ramer
+ * @author fdong
  */
 @Slf4j
 public class SimpleException extends WindException {

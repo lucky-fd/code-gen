@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * The type Lambda utils.
  *
- * @author ramer
+ * @author fdong
  * @since 2019 /12/26
  */
 @Slf4j

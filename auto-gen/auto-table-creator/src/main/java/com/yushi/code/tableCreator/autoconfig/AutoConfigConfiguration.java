@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * 读取文件自动配置{@link Configuration}.
  *
- * @author ramer
+ * @author fdong
  * @since 2022.03.05
  */
 @Data

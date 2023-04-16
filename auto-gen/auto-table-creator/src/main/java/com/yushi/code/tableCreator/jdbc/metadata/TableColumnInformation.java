@@ -9,7 +9,7 @@ import java.util.Objects;
  *
  * <p>后面可能会使用到扩展列信息,如: <code>nullable, type</code>等
  *
- * @author ramer
+ * @author fdong
  * @since 2020.08.20
  */
 @Data

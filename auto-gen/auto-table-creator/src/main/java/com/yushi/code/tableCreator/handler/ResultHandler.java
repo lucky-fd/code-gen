@@ -8,7 +8,7 @@ import java.sql.SQLException;
  *
  * @param <T> the type parameter
  * @param <E> the type parameter
- * @author ramer
+ * @author fdong
  * @since 2019 /12/27
  * @see AbstractResultHandler
  */

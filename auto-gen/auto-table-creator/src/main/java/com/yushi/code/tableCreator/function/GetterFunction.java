@@ -3,7 +3,7 @@ package com.yushi.code.tableCreator.function;
 import java.util.function.Function;
 
 /**
- * @author ramer
+ * @author fdong
  * @since 2019/12/26
  */
 @FunctionalInterface
