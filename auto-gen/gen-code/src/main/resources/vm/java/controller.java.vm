@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ${packageName}.domain.${ClassName};
 import ${packageName}.service.I${ClassName}Service;
-import com.yushiji.code.common.core.web.domain.AjaxResult;
+import com.yushi.code.common.core.web.domain.AjaxResult;
 #if($table.crud || $table.sub)
-import com.yushiji.code.common.core.web.page.TableDataInfo;
+import com.yushi.code.common.core.web.page.TableDataInfo;
 #elseif($table.tree)
 #end
 

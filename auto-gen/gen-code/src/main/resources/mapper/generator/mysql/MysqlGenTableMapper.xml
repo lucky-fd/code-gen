@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yushiji.code.mapper.mysql.MysqlGenTableMapper">
+<mapper namespace="com.yushi.code.mapper.mysql.MysqlGenTableMapper">
 
-    <resultMap type="com.yushiji.code.domain.GenTable" id="GenTableResult">
+    <resultMap type="com.yushi.code.domain.GenTable" id="GenTableResult">
         <id property="tableId" column="table_id"/>
         <result property="tableName" column="table_name"/>
         <result property="tableComment" column="table_comment"/>
@@ -34,7 +34,7 @@
         <collection property="columns" javaType="java.util.List" resultMap="GenTableColumnResult"/>
     </resultMap>
 
-    <resultMap type="com.yushiji.code.domain.GenTableColumn" id="GenTableColumnResult">
+    <resultMap type="com.yushi.code.domain.GenTableColumn" id="GenTableColumnResult">
         <id property="columnId" column="column_id"/>
         <result property="tableId" column="table_id"/>
         <result property="columnName" column="column_name"/>
@@ -90,7 +90,7 @@
         from gen_table
     </sql>
 
-    <select id="selectGenTableList" parameterType="com.yushiji.code.domain.GenTable" resultMap="GenTableResult">
+    <select id="selectGenTableList" parameterType="com.yushi.code.domain.GenTable" resultMap="GenTableResult">
         <include refid="selectGenTableVo"/>
         <where>
             <if test="tableName != null and tableName != ''">
@@ -110,7 +110,7 @@
     </select>
 
     <!--mysql格式-->
-        <select id="selectDbTableList" parameterType="com.yushiji.code.domain.GenTable" resultMap="GenTableResult">
+        <select id="selectDbTableList" parameterType="com.yushi.code.domain.GenTable" resultMap="GenTableResult">
             select table_name, table_comment, create_time, update_time from information_schema.tables
             where table_schema = (select database())
             AND table_name NOT LIKE 'qrtz_%' AND table_name NOT LIKE 'gen_%'
@@ -285,7 +285,7 @@
     </select>
 
     <!--mysql-->
-    <insert id="insertGenTable" parameterType="com.yushiji.code.domain.GenTable" useGeneratedKeys="true"
+    <insert id="insertGenTable" parameterType="com.yushi.code.domain.GenTable" useGeneratedKeys="true"
             keyProperty="tableId">
         insert into gen_table (
         <if test="tableName != null">table_name,</if>
@@ -333,7 +333,7 @@
     </insert>
 
     <!--mysql-->
-    <update id="updateGenTable" parameterType="com.yushiji.code.domain.GenTable">
+    <update id="updateGenTable" parameterType="com.yushi.code.domain.GenTable">
         update gen_table
         <set>
             <if test="tableName != null">table_name = #{tableName},</if>

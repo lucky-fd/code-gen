@@ -11,20 +11,17 @@
 
     <artifactId>gen-code</artifactId>
     <description>springMVC及vue 代码生成</description>
+    <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <groupId>org.springframework.boot</groupId>
-            <version>2.3.3.RELEASE</version>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
+            <artifactId>spring-boot-eastConfiguration-processor</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -87,35 +84,32 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.yushi.code</groupId>
+            <artifactId>gen-table-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.3.3.RELEASE</version>
-                <configuration>
+                <version>2.7.7</version>
+                <eastConfiguration>
                     <!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.yushiji.code.GenApplication</mainClass>
-                    <layout>ZIP</layout>
-                </configuration>
-                <executions>
+                    <mainClass>com.yushi.code.GenApplication</mainClass>
+                    <layout>jar</layout>
+                </eastConfiguration>
+                <!--<executions>
                     <execution>
                         <goals>
-                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                            <goal>repackage</goal>&lt;!&ndash;可以把依赖的包都打包到生成的Jar包中&ndash;&gt;
                         </goals>
                     </execution>
-                </executions>
+                </executions>-->
             </plugin>
         </plugins>
     </build>
