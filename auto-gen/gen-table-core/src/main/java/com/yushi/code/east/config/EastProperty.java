@@ -17,9 +17,9 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Slf4j
 @Configuration
-@ConfigurationProperties(prefix = EastProperty.WIND_PROPERTY_PREFIX)
+@ConfigurationProperties(prefix = EastProperty.EAST_PROPERTY_PREFIX)
 public class EastProperty {
-    public static final String WIND_PROPERTY_PREFIX = "east";
+    public static final String EAST_PROPERTY_PREFIX = "east";
 
     /**
      * entity所在包路径,多个以,分割.<br>

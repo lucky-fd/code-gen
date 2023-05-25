@@ -27,7 +27,7 @@ import javax.sql.DataSource;
 @Configuration
 @ConditionalOnSingleCandidate(DataSource.class)
 @EnableConfigurationProperties(EastProperty.class)
-@ConditionalOnProperty(prefix = EastProperty.WIND_PROPERTY_PREFIX, name = "ddl-auto")
+@ConditionalOnProperty(prefix = EastProperty.EAST_PROPERTY_PREFIX, name = "ddl-auto")
 @AutoConfigureAfter({DataSourceAutoConfiguration.class})
 public class EastAutoConfiguration {
     @Autowired

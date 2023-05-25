@@ -15,12 +15,18 @@ import lombok.Data;
 public class Foo {
 
    @TableId
-   @TableColumn(comment = "id")
+   @TableColumn(comment = "id", sort = 1)
    private Long id;
 
-   @TableColumn(comment = "名称")
+   @TableColumn(comment = "名称", sort = 2)
    private String name;
 
-   @TableColumn(comment = "描述")
+   @TableColumn(comment = "描述", sort = 3)
    private String description;
+
+   @TableColumn(comment = "描述", sort = 3)
+   private String createTime;
+
+   @TableColumn(comment = "描述", sort = 2)
+   private Boolean sex;
 }

@@ -31,6 +31,6 @@ mybatis:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-wind:
+east:
   entity-package: com.yushi.code.entity
   ddl-auto: update

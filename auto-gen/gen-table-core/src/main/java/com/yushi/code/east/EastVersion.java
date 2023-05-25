@@ -14,6 +14,6 @@ public final class EastVersion {
    */
   public static String getVersion() {
     Package pkg = EastVersion.class.getPackage();
-    return (pkg != null) ? pkg.getImplementationVersion() : null;
+    return (pkg != null) ? pkg.getImplementationVersion() : "";
   }
 }

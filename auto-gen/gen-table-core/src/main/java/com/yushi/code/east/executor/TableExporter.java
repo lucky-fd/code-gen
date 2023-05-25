@@ -83,8 +83,7 @@ public class TableExporter {
             final List<EntityColumn> columns = entityInfo.getEntityColumns();
             Comparator<EntityColumn> comparator = Comparator
                     .comparing(EntityColumn::isPrimaryKey, Comparator.reverseOrder()) // 首先按主键排序
-                    .thenComparingInt(EntityColumn::getSort) // 然后按sort排序
-                    .reversed();
+                    .thenComparingInt(EntityColumn::getSort); // 然后按sort排序
             StringBuilder sql = new StringBuilder("create table ");
             sql.append(entityInfo.getName()).append("(\n\t");
             final String columnDefinition =
