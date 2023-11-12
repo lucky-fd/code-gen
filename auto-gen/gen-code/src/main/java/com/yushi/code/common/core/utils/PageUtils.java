@@ -1,7 +1,6 @@
 package com.yushi.code.common.core.utils;
 
 
-import com.yushi.code.common.core.utils.sql.SqlUtil;
 import com.yushi.code.common.core.web.page.PageDomain;
 import com.yushi.code.common.core.web.page.TableSupport;
 import com.github.pagehelper.Page;

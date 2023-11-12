@@ -1,7 +1,6 @@
-package com.yushi.code.common.core.utils.sql;
+package com.yushi.code.common.core.utils;
 
 import com.yushi.code.common.core.exception.UtilException;
-import com.yushi.code.common.core.utils.StringUtils;
 
 /**
  * sql操作工具类
