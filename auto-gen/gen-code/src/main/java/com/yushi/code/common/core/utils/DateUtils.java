@@ -1,12 +1,7 @@
 package com.yushi.code.common.core.utils;
 
-import cn.hutool.core.date.DateField;
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
-
 import com.yushi.code.common.core.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
 import java.lang.management.ManagementFactory;
@@ -419,77 +414,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     }
 
 
-    /**
-     * 得到开始截止时间之间日期，不包括起始时间和结尾时间
-     *
-     * @param beginTime
-     * @param endTime
-     * @return
-     * @throws ParseException
-     */
-    public static List<Date> betweenDates(Date beginTime, Date endTime) {
-        ArrayList<Date> dates = new ArrayList<>();
-        List<DateTime> times = DateUtil.rangeToList(beginTime, endTime, DateField.DAY_OF_YEAR);
-        float beginHours = DateUtils.hoursOneDay(beginTime);
-        float endHours = DateUtils.hoursOneDay(endTime);
-        boolean lastDayFlag = false;
-        if (endHours >= beginHours) {
-            lastDayFlag = true;
-        }
-
-        if (ObjectUtils.isNotEmpty(times)) {
-            for (int i = 0; i < times.size(); i++) {
-                if (i == times.size() - 1) {
-                    if (lastDayFlag) {
-                        break;
-                    }
-                }
-                if (i == 0 || i == times.size()) {
-
-                } else {
-                    dates.add(new Date(times.get(i).getTime()));
-                }
-            }
-        }
-        return dates;
-    }
-
-    /**
-     * 得到开始截止时间之间日期，包括起始时间和结尾时间
-     *
-     * @param beginTime
-     * @param endTime
-     * @return
-     * @throws ParseException
-     */
-    public static List<Date> betweenAllDates(Date beginTime, Date endTime) {
-        ArrayList<Date> dates = new ArrayList<>();
-        dates.add(beginTime);
-        List<DateTime> times = DateUtil.rangeToList(beginTime, endTime, DateField.DAY_OF_YEAR);
-        float beginHours = DateUtils.hoursOneDay(beginTime);
-        float endHours = DateUtils.hoursOneDay(endTime);
-        boolean lastDayFlag = false;
-        if (endHours >= beginHours) {
-            lastDayFlag = true;
-        }
-
-        if (ObjectUtils.isNotEmpty(times)) {
-            for (int i = 0; i < times.size(); i++) {
-                if (i == times.size() - 1) {
-                    if (lastDayFlag) {
-                        break;
-                    }
-                }
-                if (i == 0 || i == times.size()) {
-
-                } else {
-                    dates.add(new Date(times.get(i).getTime()));
-                }
-            }
-        }
-        dates.add(endTime);
-        return dates;
-    }
 
 
     public static String format(LocalDateTime time, String s) {

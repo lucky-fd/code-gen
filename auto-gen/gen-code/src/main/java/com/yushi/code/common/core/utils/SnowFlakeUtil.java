@@ -1,7 +1,5 @@
 package com.yushi.code.common.core.utils;
 
-import cn.hutool.core.util.IdUtil;
-
 /**
  * 描述: Twitter的分布式自增ID雪花算法snowflake (Java版)
  *
@@ -18,9 +16,9 @@ public class SnowFlakeUtil {
     /**
      * 每一部分占用的位数
      */
-    private final static long SEQUENCE_BIT = 10; //序列号占用的位数
-    private final static long MACHINE_BIT = 3;   //机器标识占用的位数
-    private final static long DATACENTER_BIT = 3;//数据中心占用的位数
+    private final static long SEQUENCE_BIT = 10; // 序列号占用的位数
+    private final static long MACHINE_BIT = 3;   // 机器标识占用的位数
+    private final static long DATACENTER_BIT = 3;// 数据中心占用的位数
 
     /**
      * 每一部分的最大值
@@ -36,10 +34,10 @@ public class SnowFlakeUtil {
     private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
     private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
 
-    private long datacenterId;  //数据中心
-    private long machineId;     //机器标识
-    private long sequence = 0L; //序列号
-    private long lastStmp = -1L;//上一次时间戳
+    private long datacenterId;  // 数据中心
+    private long machineId;     // 机器标识
+    private long sequence = 0L; // 序列号
+    private long lastStmp = -1L;// 上一次时间戳
 
 
     public static SnowFlakeUtil InitId(long datacenterId, long machineId) {
@@ -69,25 +67,25 @@ public class SnowFlakeUtil {
         }
 
         if (currStmp == lastStmp) {
-            //相同毫秒内，序列号自增
+            // 相同毫秒内，序列号自增
             sequence = (sequence + 1) & MAX_SEQUENCE;
-            //同一毫秒的序列数已经达到最大
+            // 同一毫秒的序列数已经达到最大
             if (sequence == 0L) {
                 currStmp = getNextMill();
             }
         } else {
-            //不同毫秒内，序列号置为0
-            //sequence = 0L;
-            //单数毫秒为1，双数毫秒为0
+            // 不同毫秒内，序列号置为0
+            // sequence = 0L;
+            // 单数毫秒为1，双数毫秒为0
             sequence = currStmp % 2 == 0 ? 0L : 1L;
         }
 
         lastStmp = currStmp;
 
-        return (currStmp - START_STMP) << TIMESTMP_LEFT //时间戳部分
-                | datacenterId << DATACENTER_LEFT       //数据中心部分
-                | machineId << MACHINE_LEFT             //机器标识部分
-                | sequence;                             //序列号部分
+        return (currStmp - START_STMP) << TIMESTMP_LEFT // 时间戳部分
+                | datacenterId << DATACENTER_LEFT       // 数据中心部分
+                | machineId << MACHINE_LEFT             // 机器标识部分
+                | sequence;                             // 序列号部分
     }
 
     private long getNextMill() {
@@ -103,10 +101,10 @@ public class SnowFlakeUtil {
     }
 
     public static Long getId() {
-        return IdUtil.getSnowflake(1, 1).nextId();
+        return SnowFlakeUtil.InitId(1, 1).nextId();
     }
 
     public static String getStrId() {
-        return Long.toString(IdUtil.getSnowflake(1, 1).nextId());
+        return Long.toString(getId());
     }
 }
