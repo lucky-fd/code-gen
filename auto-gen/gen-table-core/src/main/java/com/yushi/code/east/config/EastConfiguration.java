@@ -68,10 +68,12 @@ public class EastConfiguration {
     public enum DdlAuto {
         /**
          * Create ddl auto.
+         * 每次执行创建操作，表存在则删除再创建
          */
         CREATE,
         /**
          * Update ddl auto.
+         * 如果表不存在，则创建表；如果表存在，则更新表（已定义字段不会更新，避免数据库字段类型不一致冲突，只更新新加字段）
          */
         UPDATE,
         /**

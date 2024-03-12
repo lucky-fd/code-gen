@@ -5,6 +5,8 @@ import com.yushi.code.east.annotation.TableId;
 import com.yushi.code.east.annotation.TableInfo;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 
 /**
  * @author fdong
@@ -15,18 +17,21 @@ import lombok.Data;
 public class Foo {
 
    @TableId
-   @TableColumn(comment = "id", sort = 1)
+   @TableColumn(comment = "id")
    private Long id;
 
-   @TableColumn(comment = "名称", sort = 2)
+   @TableColumn(comment = "名称")
    private String name;
 
-   @TableColumn(comment = "描述", sort = 3)
+   @TableColumn(comment = "排序")
+   private Integer sort;
+
+   @TableColumn(comment = "描述")
    private String description;
 
-   @TableColumn(comment = "描述", sort = 3)
-   private String createTime;
-
-   @TableColumn(comment = "描述", sort = 2)
+   @TableColumn(comment = "性别")
    private Boolean sex;
+
+   @TableColumn(comment = "创建时间")
+   private LocalDateTime createTime;
 }
