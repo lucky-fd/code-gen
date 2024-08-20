@@ -1,22 +1,16 @@
 package ${packageName}.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
-import java.util.List;
-
-import ${packageName}.domain.${ClassName};
-#if($table.sub)
-import ${packageName}.domain.${subClassName};
-#end
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * ${functionName}Mapper接口
  *
  * @author ${author}
- * @date ${datetime}
+ * @since ${datetime}
  */
 @Mapper
 public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
+
 
 }

@@ -1,19 +1,24 @@
-package ${packageName}.domain.vo;
+package ${packageName}.domain;
 
-#foreach ($import in $importList)
-import ${import};
-#end
 import lombok.Data;
+import lombok.Builder;
+import com.pinuc.online.core.entity.model.QueryModel;
 
 
 /**
- * ${functionName} 前端响应类
+ * ${functionName} 接口传参实体
  *
  * @author ${author}
  * @since  ${datetime}
  */
+#if($table.crud || $table.sub)
+    #set($Entity="BaseEntityPlus")
+#elseif($table.tree)
+    #set($Entity="TreeEntity")
+#end
 @Data
-public class ${ClassName}Resp {
+@Builder
+public class Query${ClassName}Model implements QueryModel {
 
 
 #foreach ($column in $columns)
@@ -29,12 +34,13 @@ public class ${ClassName}Resp {
             #set($comment=$column.columnComment)
         #end
     #end
-    #if($column.javaType == "Date"||$column.javaType == "LocalDateTime")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    #if($column.columnName == $pkColumn.columnName)
+    @TableId(type = IdType.ASSIGN_ID)
     #end
     private $column.javaType $column.javaField;
     #end
 #end
+
 #if($table.sub)
 /**
  * $table.subTable.functionName信息
@@ -42,13 +48,5 @@ public class ${ClassName}Resp {
 private List<${subClassName}> ${subclassName}List;
 
 #end
-
-    public static ${ClassName}Resp of(${ClassName}PoJoModel model) {
-        return BeanUtils.copy(brand, new ${ClassName}Resp());
-    }
-
-    public static List<${ClassName}Resp> ofList(List<${ClassName}PoJoModel> models) {
-        return BeanUtils.copy(brand, ${ClassName}Resp::new);
-    }
 
 }

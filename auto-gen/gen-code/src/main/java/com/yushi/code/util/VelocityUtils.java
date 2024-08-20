@@ -152,8 +152,12 @@ public class VelocityUtils {
      * */
     private static List<String> getCustomTemplate(String tplCategory) {
         List<String> templates = new ArrayList<>();
-        templates.add("vm/java/custom/domain.java.vm");
-        templates.add("vm/java/custom/convert.java.vm");
+        templates.add("vm/java/custom/model.java.vm");
+        templates.add("vm/java/custom/pojo.java.vm");
+        templates.add("vm/java/custom/queryModel.java.vm");
+        templates.add("vm/java/custom/request.java.vm");
+        templates.add("vm/java/custom/requestPage.java.vm");
+        templates.add("vm/java/custom/requestQuery.java.vm");
         templates.add("vm/java/custom/response.java.vm");
         templates.add("vm/java/custom/mapper.java.vm");
         templates.add("vm/java/custom/service.java.vm");

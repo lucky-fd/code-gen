@@ -1,104 +1,114 @@
 package ${packageName}.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
+import javax.annotation.Resource;
+import javax.validation.Valid;
 
+import com.pinuc.online.common.lambda.Fields;
+import com.pinuc.online.core.entity.response.Page;
+import com.pinuc.online.core.entity.response.Rs;
 import lombok.extern.slf4j.Slf4j;
-import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import ${packageName}.domain.${ClassName};
-import ${packageName}.domain.vo.${ClassName}ReqVo;
-import ${packageName}.service.I${ClassName}Service;
-import com.yuanchen.bigdata.longna.common.bean.result.Response;
-#if($table.crud || $table.sub)
-import com.yuanchen.bigdata.longna.common.bean.page.PageEntity;
-#elseif($table.tree)
-#end
+import java.util.List;
 
 /**
- * ${functionName}Controller
+ * ${functionName}
  *
  * @author ${author}
- * @date ${datetime}
+ * @since ${datetime}
  */
 @Slf4j
 @RestController
 @RequestMapping("/${businessName}")
-@RequiredArgsConstructor
-@Api(value = "${functionName}", tags = "${functionName}")
 public class ${ClassName}Controller {
 
-    private final I${ClassName}Service ${className}Service;
-
+    @Resource
+    private ${ClassName}Service ${className}Service;
 
     /**
-     * 查询列表
-     * @param ${className} 查询条件
-     * @return 分页信息
+     * 新增
+     *
+     * @author ${author}
+     * @since ${datetime}
      */
-    @GetMapping("/list")
-    @ApiOperation(value = "${functionName}列表查询【${author}】",
-            notes = "${functionName}列表查询", produces = "创建人：【${author}】", consumes = "关注人：【xxx】")
-    public PageEntity list(${ClassName}ReqVo ${className}) {
-        startPage();
-        return getPageEntity(${className}Service.select${ClassName}List(${className}));
+    @PostMapping("/create")
+    public Rs<${ClassName}Resp> create(@RequestBody @Valid ${ClassName}Req ${className}) {
+            ${ClassName}PoJoModel poJoModel = {className} Service.create(${className}.toModel());
+        return Rs.ok(${ClassName}Resp.of(poJoModel));
     }
-
 
     /**
      * 获取详细信息
-     * @param ${pkColumn.javaField} id
+     * @author ${author}
+     * @since ${datetime}
      */
-    @GetMapping(value = "/getById/{${pkColumn.javaField}}")
-    @ApiOperation(value = "${functionName} id查询【${author}】",
-            notes = "${functionName} id查询", produces = "创建人：【${author}】", consumes = "关注人：【xxx】")
-    public Response< ${ClassName}RespVo> getInfo(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
-        return Response.success(${className}Service.selectBy${pkColumn.capJavaField}(${pkColumn.javaField}));
+    @GetMapping(value = "/{${pkColumn.javaField}}")
+    public Rs<${ClassName}Resp> detail(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
+        return Rs.ok(${ClassName}Resp.of(${className}Service.getById(${pkColumn.javaField}), ${ClassName}Resp.class));
     }
 
     /**
-     * 新增
-     * @param ${className} 新增内容
+     * 查询列表
+     * @author ${author}
+     * @since ${datetime}
+     * @return 列表信息
      */
-    @PostMapping("/save")
-    @ApiOperation(value = "${functionName} 新增或修改【${author}】",
-            notes = "${functionName} 新增或修改", produces = "创建人：【${author}】", consumes = "关注人：【xxx】")
-    public Response<?> save(@RequestBody ${ClassName} ${className}) {
-        ${className}Service.saveOrUpdate(${className});
-        return Response.success();
+    @GetMapping("/list")
+    public Rs<List<${ClassName}Resp>> list(${ClassName}QueryReq ${className}) {
+        List<${ClassName}PoJoModel> list = ${className}Service.list(
+                Query${ClassName}Model.builder()
+                        .build(),
+                Fields.of(${ClassName}PoJoModel.class));
+        return Rs.ok(${ClassName}Resp.ofList(list, ${ClassName}Resp.class));
+    }
+
+
+    /**
+     * 分页查询
+     *
+     * @author ${author}
+     * @since ${datetime}
+     * @return 分页信息
+     */
+    @GetMapping("/page")
+    public Rs<Page<${ClassName}Resp>> page(@Valid ${ClassName}PageReq ${className}) {
+        Page<${ClassName}PoJoModel> page = ${className}Service.page(
+            ${className}.getPage(),
+        ${className}.getSize(),
+                Query${ClassName}Model.builder()
+                        .build(),
+                Fields.of(${ClassName}PoJoModel.class));
+
+        return Rs.ok(
+                Page.of(
+                        page.getPageNo(),
+                        page.getPageSize(),
+                        page.getTotalCount(),
+                            ${ClassName}Resp.ofList(page.getList(), ${ClassName}Resp.class)));
     }
 
     /**
-     * 新增
-     * @param ${className} 新增内容
+     * 更新
+     *
+     * @author ${author}
+     * @since ${datetime}
      */
-    @PostMapping("/saveBatch")
-    public Response<?> saveBatch(@RequestBody List<${ClassName}> ${className}) {
-        ${className}Service.saveBatch(${className});
-        return Response.success();
+    @PostMapping("/update")
+    public Rs<${ClassName}Resp> update(@RequestBody @Valid ${ClassName}Req ${className}) {
+            ${ClassName}PoJoModel poJoModel = ${className}Service.update(${className}.toModel());
+        return Rs.ok(${ClassName}Resp.of(poJoModel));
     }
 
+
     /**
-     * 删除
+     * 单个/批量删除
+     * @author ${author}
+     * @since ${datetime}
      */
     @PostMapping("/delete")
-    @ApiOperation(value = "${functionName} 删除【${author}】",
-            notes = "${functionName} 删除", produces = "创建人：【${author}】", consumes = "关注人：【xxx】")
-    public Response<?> remove(@RequestBody List<${pkColumn.javaType}> ${pkColumn.javaField}s) {
-        ${className}Service.removeBatchByIds(${pkColumn.javaField}s);
-        return Response.success();
+    public Rs<Void> remove(@RequestBody List<Long> ids) {
+            ${className}Service.deleteByIds(ids);
+        return Rs.ok();
     }
 
 }

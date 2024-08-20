@@ -1,19 +1,24 @@
-package ${packageName}.domain.vo;
+package ${packageName}.domain;
 
-#foreach ($import in $importList)
-import ${import};
-#end
+import com.pinuc.online.common.entity.model.PoJoModel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 /**
- * ${functionName} 前端响应类
+ * ${functionName} model实体
  *
  * @author ${author}
  * @since  ${datetime}
  */
+#if($table.crud || $table.sub)
+    #set($Entity="BaseEntityPlus")
+#elseif($table.tree)
+    #set($Entity="TreeEntity")
+#end
 @Data
-public class ${ClassName}Resp {
+@EqualsAndHashCode(callSuper = true)
+public class ${ClassName}PoJoModel extends PoJoModel {
 
 
 #foreach ($column in $columns)
@@ -29,8 +34,8 @@ public class ${ClassName}Resp {
             #set($comment=$column.columnComment)
         #end
     #end
-    #if($column.javaType == "Date"||$column.javaType == "LocalDateTime")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    #if($column.columnName == $pkColumn.columnName)
+    @TableId(type = IdType.ASSIGN_ID)
     #end
     private $column.javaType $column.javaField;
     #end
@@ -42,13 +47,4 @@ public class ${ClassName}Resp {
 private List<${subClassName}> ${subclassName}List;
 
 #end
-
-    public static ${ClassName}Resp of(${ClassName}PoJoModel model) {
-        return BeanUtils.copy(brand, new ${ClassName}Resp());
-    }
-
-    public static List<${ClassName}Resp> ofList(List<${ClassName}PoJoModel> models) {
-        return BeanUtils.copy(brand, ${ClassName}Resp::new);
-    }
-
 }

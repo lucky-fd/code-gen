@@ -1,0 +1,49 @@
+package ${packageName}.domain.vo;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import com.pinuc.online.core.entity.request.PageReq;
+
+
+/**
+ * ${functionName} 前端请求传参实体类
+ *
+ * @author ${author}
+ * @since  ${datetime}
+ */
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ${ClassName}PageReq extends PageReq {
+
+
+    #foreach ($column in $columns)
+#if(!$table.isSuperColumn($column.javaField))
+    /**
+     * $column.columnComment
+     */
+    #if($column.list)
+        #set($parentheseIndex=$column.columnComment.indexOf("（"))
+        #if($parentheseIndex != -1)
+            #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+        #else
+            #set($comment=$column.columnComment)
+        #end
+    #end
+    #if($column.javaType == "Date"||$column.javaType == "LocalDateTime"||$column.javaType == "LocalDate")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    #end
+    private $column.javaType $column.javaField;
+#end
+#end
+    #if($table.sub)
+        /**
+         * $table.subTable.functionName信息
+         */
+        private List<${subClassName}> ${subclassName}List;
+
+    #end
+
+}

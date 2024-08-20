@@ -1,65 +1,97 @@
 package ${packageName}.service.impl;
 
+import com.alibaba.boot.hsf.annotation.HSFProvider;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.pinuc.online.common.lambda.Fields;
+import com.pinuc.online.core.entity.model.QueryModel;
+import com.pinuc.online.core.entity.response.Page;
+import com.pinuc.online.mybatispgsql.service.DefaultPoJoService;
+import java.lang.reflect.Field;
 import java.util.List;
-
-
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-#if($isProcess)
-import io.seata.spring.annotation.GlobalTransactional;
-import com.ci.erp.common.process.enums.EmCommonProcessStatus;
-import org.apache.commons.collections.CollectionUtils;
-import com.ci.erp.common.core.constant.ProcessConstants;
-import com.ci.erp.common.core.exception.ServiceException;
-import com.ci.erp.common.core.utils.StringUtils;
-import com.ci.erp.common.core.enums.ResCode;
 
-import static com.ci.erp.api.process.domain.dto.ProcessCommitReqDto.*;
-import static com.ci.erp.common.process.constant.ProcessConstant.*;
-#end
-#if($table.sub)
-import org.springframework.transaction.annotation.Transactional;
-import ${packageName}.domain.${subClassName};
-#end
 /**
- * ${functionName}Service业务层处理
+ * ${functionName} Service业务层处理
  *
  * @author ${author}
  * @since  ${datetime}
  */
 @Slf4j
-@Service
-public class ${ClassName}ServiceImpl extends ServiceImplPlus<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service {
+@HSFProvider(serviceInterface = ${ClassName}Service.class)
+public class ${ClassName}ServiceImpl extends DefaultPoJoService<${ClassName}PoJoModel, ${ClassName}, ${ClassName}Mapper> implements ${ClassName}Service {
 
     @Override
-    public ${ClassName}RespVo select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaType} ${pkColumn.javaField}) {
-        ${ClassName} entity = baseMapper.select${ClassName}By${pkColumn.capJavaField}(${pkColumn.javaField});
-        return ${ClassName}Convert.INSTANCE.convert(entity);
+    protected Class<${ClassName}PoJoModel> getPoJoModelClass() {
+        return ${ClassName}PoJoModel.class;
     }
 
+    @Nonnull
     @Override
-    public  List<${ClassName}RespVo> select${ClassName}List(${ClassName}ReqVo ${className}) {
-        List<${ClassName}> list = baseMapper.select${ClassName}List(${className});
-        return ${ClassName}Convert.INSTANCE.convertVoBatch(list);
-    }
-
-    @Override
-    public void export(${ClassName}ReqVo ${className}, HttpServletResponse response) {
-        List<${ClassName}> list;
-        //选择订单导出
-        if (${className}.getIncludeIds().size() > 0){
-            //查询出需要导出的数据
-            ${ClassName} selectList = new ${ClassName}();
-            selectList.setIncludeIds(${className}.getIncludeIds());
-
-        }else{//条件查询导出
-            //排掉前端的勾选列表
-            ${className}.setIncludeIds(null);
+    public <REQ extends QueryModel> List<${ClassName}PoJoModel> list(
+            REQ req, Fields<${ClassName}PoJoModel> fields) {
+        if (req instanceof Query${ClassName}Model) {
+            return list((Query${ClassName}Model) req, fields);
         }
-        list = baseMapper.select${ClassName}List(${className});
-        List<${ClassName}RespVo> resp = ${ClassName}Convert.INSTANCE.convertVoBatch(list);
-        ExcelUtil<${ClassName}RespVo> util = new ExcelUtil<>(${ClassName}RespVo.class);
-        util.exportExcel(response, resp, "导出模板信息");
+        return super.list(req, fields);
     }
+
+    @Nonnull
+    @Override
+    public <REQ extends QueryModel> Page<${ClassName}PoJoModel> page(
+            long page, long size, REQ req, Fields<${ClassName}PoJoModel> fields) {
+        if (req instanceof Query${ClassName}Model) {
+
+            // 构建查询条件
+            QueryWrapper<${ClassName}> queryWrapper = buildWrapper((Query${ClassName}Model)req, fields);
+
+            IPage<${ClassName}> pageInfo =
+                    new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(page, size);
+            IPage<${ClassName}> iPage = page(pageInfo, queryWrapper);
+            return Page.of(
+                    iPage.getCurrent(),
+                    iPage.getSize(),
+                    iPage.getTotal(),
+                    iPage.getRecords().stream()
+                            .map(o -> o.toModel(${ClassName}PoJoModel.class))
+                            .collect(Collectors.toList()));
+        }
+        return super.page(page, size, req, fields);
+    }
+
+    /** {@inheritDoc} */
+    @Nonnull
+    @Override
+    public List<${ClassName}PoJoModel> list(
+            Query${ClassName}Model req, Fields<${ClassName}PoJoModel> fields) {
+
+        // 构建查询条件
+        QueryWrapper<${ClassName}> queryWrapper = buildWrapper(req, fields);
+
+        return baseMapper.selectList(queryWrapper).stream()
+                .map(pojo -> pojo.toModel(${ClassName}PoJoModel.class))
+                .collect(Collectors.toList());
+    }
+
+    /** 构建查询条件 */
+    private QueryWrapper<${ClassName}> buildWrapper(
+            Query${ClassName}Model queryModel, Fields<${ClassName}PoJoModel> fields) {
+        QueryWrapper<${ClassName}> wrapper = new QueryWrapper<>();
+        // 查询条件
+
+        // 逻辑删除
+        wrapper.eq(getColumn(BeanUtils.getField(${ClassName}::getDeleted)), false);
+
+        // 指定查询字段
+        if (fields != null) {
+            wrapper.select(
+                    fields.getIncludeFields().stream().map(this::getColumn).collect(Collectors.toList()));
+        }
+        // 排序
+
+        return wrapper;
+    }
+
 
 }

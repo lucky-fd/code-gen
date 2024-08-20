@@ -1,0 +1,58 @@
+package ${packageName}.domain.vo;
+
+#foreach ($import in $importList)
+import ${import};
+#end
+import lombok.Data;
+import com.pinuc.online.common.lambda.BeanUtils;
+import javax.validation.constraints.NotNull;
+
+
+/**
+ * ${functionName} 请求对象 实体类
+ *
+ * @author ${author}
+ * @since  ${datetime}
+ */
+@Data
+public class ${ClassName}Req {
+
+
+    #foreach ($column in $columns)
+#if(!$table.isSuperColumn($column.javaField))
+    /**
+     * $column.columnComment
+     */
+    #if($column.list)
+        #set($parentheseIndex=$column.columnComment.indexOf("（"))
+        #if($parentheseIndex != -1)
+            #set($comment=$column.columnComment.substring(0, $parentheseIndex))
+        #else
+            #set($comment=$column.columnComment)
+        #end
+    #end
+    #if($column.javaType == "Date"||$column.javaType == "LocalDateTime"||$column.javaType == "LocalDate")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    #end
+    private $column.javaType $column.javaField;
+#end
+#end
+    #if($table.sub)
+        /**
+         * $table.subTable.functionName信息
+         */
+        private List<${subClassName}> ${subclassName}List;
+
+    #end
+
+    /**
+   * 将请求对象转换为模型对象
+   *
+   * @author ${author}
+   * @since  ${datetime}
+   */
+    public ${ClassName}PoJoModel toModel() {
+        return BeanUtils.copy(this, new ${ClassName}PoJoModel());
+    }
+
+}
