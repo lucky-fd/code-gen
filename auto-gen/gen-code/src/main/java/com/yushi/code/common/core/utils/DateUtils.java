@@ -39,7 +39,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     static Map<String, Integer> holidayMap = new HashMap<String, Integer>();
 
 
-
     /**
      * 获取当前Date型日期
      *
@@ -247,7 +246,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         long nm = 1000L * 24 * 60 * 60 * 30;
         // 获得两个时间的毫秒时间差异
         long diff = endDate.getTime() - nowDate.getTime();
-        //舍弃末尾小数点
+        // 舍弃末尾小数点
         BigDecimal res = new BigDecimal(diff).divide(new BigDecimal(nm), 0, RoundingMode.DOWN);
         // 计算差多少月
         return res.intValue();
@@ -385,37 +384,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return DateUtils.toDate(localDate);
     }
 
-    /**
-     * 判断是否为假期
-     * 1:节假日
-     * 2：调休
-     * 3：周天
-     * 4：啥也不是
-     *
-     * @param judgeDate 判断日期
-     * @return int
-     */
-    @Deprecated
-    public static int isHoliday(Date judgeDate) {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMdd");
-        String dateStr = sdf.format(judgeDate);
-        if (holidayMap.containsKey(dateStr)) {
-            if (holidayMap.get(dateStr).equals(1)) {
-                return 1;
-            }
-            if (holidayMap.get(dateStr).equals(2)) {
-                return 2;
-            }
-            if (holidayMap.get(dateStr).equals(3)) {
-                return 3;
-            }
-        }
-        return 4;
-    }
-
-
-
-
     public static String format(LocalDateTime time, String s) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(s);
         return formatter.format(time);
@@ -434,72 +402,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return format(time, YYYY_MM_DD);
     }
 
-    //初始化为0:0:0
-    public static Date initZeroTime(Date date) {
-        date.setHours(0);
-        date.setMinutes(0);
-        date.setSeconds(0);
-        return date;
-    }
 
-    //初始化为23:59:59
-    public static Date initEveningTime(Date date) {
-        date.setHours(23);
-        date.setMinutes(59);
-        date.setSeconds(59);
-        return date;
-    }
-
-    //得到默认当前第一天
-    public static Date getMonthFirstDay() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-        Date date = new Date();
-        String dateStr = sdf.format(date) + "-01";
-        try {
-            date = sdf.parse(dateStr);
-            initZeroTime(date);
-        } catch (Exception e) {
-            log.error("时间解析失败");
-            throw new ServiceException("时间解析失败");
-        }
-        return date;
-    }
-
-
-    //得到默认下个月第一天
-    public static Date getNextMonthFirstDay() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MM");
-        Date date = new Date();
-        int dateInt = 0;
-
-        String dateStr = sdf.format(date);
-        sdf = new SimpleDateFormat("yyyy");
-        String year = sdf.format(date);
-
-        if (dateStr.equals("12")) {
-            dateInt = 1;
-        } else {
-            dateInt = (Integer.valueOf(dateStr) + 1);
-        }
-        if (dateInt < 10) {
-            dateStr = year + "-0" + dateInt + "-01";
-        } else {
-            dateStr = year + "-" + dateInt + "-01";
-        }
-
-        try {
-            sdf = new SimpleDateFormat("yyyy-MM-dd");
-            date = sdf.parse(dateStr);
-            initZeroTime(date);
-        } catch (Exception e) {
-            log.error("时间解析失败");
-            throw new ServiceException("时间解析失败");
-        }
-        String format = sdf.format(date);
-        return date;
-    }
-
-    //得到默认上个月第一天
+    // 得到默认上个月第一天
     public static Date getMonthLastDay() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -532,35 +436,6 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return format(LocalDateTime.now());
     }
 
-
-    /**
-     * 流程完成时间处理
-     *
-     * @param ms 时间戳
-     * @return res
-     */
-    public static String handleTime(Long ms) {
-        long day = ms / (24 * 60 * 60 * 1000);
-        long hour = (ms / (60 * 60 * 1000) - day * 24);
-        long minute = ((ms / (60 * 1000)) - day * 24 * 60 - hour * 60);
-        long second = (ms / 1000 - day * 24 * 60 * 60 - hour * 60 * 60 - minute * 60);
-
-        if (day > 0) {
-            return day + "天" + hour + "小时" + minute + "分钟";
-        }
-        if (hour > 0) {
-            return hour + "小时" + minute + "分钟";
-        }
-        if (minute > 0) {
-            return minute + "分钟";
-        }
-        if (second > 0) {
-            return second + "秒";
-        } else {
-            return 0 + "秒";
-        }
-    }
-
     /*
         根据传入的格式获得时间
         sdf：SdfFormatConstants
@@ -568,8 +443,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     public static Date getDateBySdf(String dateStr, String sdf) {
         SimpleDateFormat format = new SimpleDateFormat(sdf);
         try {
-            Date date = format.parse(dateStr);
-            return date;
+            return format.parse(dateStr);
         } catch (Exception e) {
             return null;
         }
@@ -582,40 +456,10 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     public static String getDateBySdf(Date date, String sdf) {
         SimpleDateFormat format = new SimpleDateFormat(sdf);
         try {
-            String dateStr = format.format(date);
-            return dateStr;
+            return format.format(date);
         } catch (Exception e) {
             return null;
         }
-    }
-
-    /**
-     * @Author：
-     * @Description：更加输入日期，获取输入日期的前一天
-     * @Date：
-     * @strData：参数格式：yyyy-MM-dd
-     * @return：返回格式：yyyy-MM-dd
-     */
-    public static Date getPreDateByDate(Date date) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int day1 = c.get(Calendar.DATE);
-        c.set(Calendar.DATE, day1 - 1);
-        return c.getTime();
-    }
-
-    /**
-     * 获取指定日期明天时间
-     *
-     * @Author：
-     * @Description：更加输入日期，获取输入日期的后一天
-     */
-    public static Date getAfterDateByDate(Date date) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int day1 = c.get(Calendar.DATE);
-        c.set(Calendar.DATE, day1 + 1);
-        return c.getTime();
     }
 
 }
