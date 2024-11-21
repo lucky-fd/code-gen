@@ -19,6 +19,7 @@ import java.util.*;
  * @author ruoyi
  */
 @Slf4j
+@SuppressWarnings("unused")
 public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
 
     public final static String YYYY = "yyyy";
