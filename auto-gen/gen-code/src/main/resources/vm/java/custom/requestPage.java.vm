@@ -5,7 +5,7 @@ import ${import};
 #end
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.pinuc.online.core.entity.request.PageReq;
+import com.pinuc.online.common.entity.request.PageReq;
 
 
 /**

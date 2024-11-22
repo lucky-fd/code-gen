@@ -2,7 +2,7 @@ package ${packageName}.domain;
 
 import lombok.Data;
 import lombok.Builder;
-import com.pinuc.online.core.entity.model.QueryModel;
+import com.pinuc.online.common.entity.model.QueryModel;
 
 
 /**

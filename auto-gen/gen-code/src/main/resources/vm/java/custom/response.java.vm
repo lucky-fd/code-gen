@@ -15,6 +15,8 @@ import lombok.Data;
 @Data
 public class ${ClassName}Resp {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long id;
 
 #foreach ($column in $columns)
     #if(!$table.isSuperColumn($column.javaField))
@@ -44,11 +46,11 @@ private List<${subClassName}> ${subclassName}List;
 #end
 
     public static ${ClassName}Resp of(${ClassName}PoJoModel model) {
-        return BeanUtils.copy(brand, new ${ClassName}Resp());
+        return BeanUtils.copy(model, new ${ClassName}Resp());
     }
 
     public static List<${ClassName}Resp> ofList(List<${ClassName}PoJoModel> models) {
-        return BeanUtils.copy(brand, ${ClassName}Resp::new);
+        return BeanUtils.copy(models, ${ClassName}Resp::new);
     }
 
 }

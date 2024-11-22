@@ -4,7 +4,7 @@ import com.alibaba.boot.hsf.annotation.HSFProvider;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pinuc.online.common.lambda.Fields;
-import com.pinuc.online.core.entity.model.QueryModel;
+import com.pinuc.online.common.entity.model.QueryModel;
 import com.pinuc.online.core.entity.response.Page;
 import com.pinuc.online.mybatispgsql.service.DefaultPoJoService;
 import java.lang.reflect.Field;

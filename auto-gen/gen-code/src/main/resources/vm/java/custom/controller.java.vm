@@ -33,7 +33,7 @@ public class ${ClassName}Controller {
      */
     @PostMapping("/create")
     public Rs<${ClassName}Resp> create(@RequestBody @Valid ${ClassName}Req ${className}) {
-            ${ClassName}PoJoModel poJoModel = {className} Service.create(${className}.toModel());
+            ${ClassName}PoJoModel poJoModel = ${className}Service.create(${className}.toModel());
         return Rs.ok(${ClassName}Resp.of(poJoModel));
     }
 
