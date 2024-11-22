@@ -44,7 +44,7 @@ public class ${ClassName}Controller {
      */
     @GetMapping(value = "/{${pkColumn.javaField}}")
     public Rs<${ClassName}Resp> detail(@PathVariable("${pkColumn.javaField}") ${pkColumn.javaType} ${pkColumn.javaField}) {
-        return Rs.ok(${ClassName}Resp.of(${className}Service.getById(${pkColumn.javaField}), ${ClassName}Resp.class));
+        return Rs.ok(${ClassName}Resp.of(${className}Service.getById(${pkColumn.javaField})));
     }
 
     /**
@@ -59,7 +59,7 @@ public class ${ClassName}Controller {
                 Query${ClassName}Model.builder()
                         .build(),
                 Fields.of(${ClassName}PoJoModel.class));
-        return Rs.ok(${ClassName}Resp.ofList(list, ${ClassName}Resp.class));
+        return Rs.ok(${ClassName}Resp.ofList(list));
     }
 
 
