@@ -45,6 +45,14 @@ private List<${subClassName}> ${subclassName}List;
 
 #end
 
+    /** 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+    /** 更新时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+
     public static ${ClassName}Resp of(${ClassName}PoJoModel model) {
         return BeanUtils.copy(model, new ${ClassName}Resp());
     }

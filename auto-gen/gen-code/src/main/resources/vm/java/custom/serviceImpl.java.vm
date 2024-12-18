@@ -89,7 +89,7 @@ public class ${ClassName}ServiceImpl extends DefaultPoJoService<${ClassName}PoJo
                     fields.getIncludeFields().stream().map(this::getColumn).collect(Collectors.toList()));
         }
         // 排序
-
+        wrapper.orderByDesc("create_time");
         return wrapper;
     }
 

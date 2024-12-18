@@ -18,7 +18,8 @@ import com.pinuc.online.common.entity.model.QueryModel;
 #end
 @Data
 @Builder
-public class Query${ClassName}Model implements QueryModel {
+@EqualsAndHashCode(callSuper = true)
+public class Query${ClassName}Model extends QueryModel {
 
 
 #foreach ($column in $columns)
