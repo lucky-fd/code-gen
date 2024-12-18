@@ -159,7 +159,7 @@
             @pagination="getList"
         />
         <el-dialog title="编辑" :visible.sync="dialog.editTable.open" width="90%" append-to-body>
-            <gen-edit v-if="dialog.editTable.open" :p="dialog.editTable.params"/>
+            <gen-edit v-if="dialog.editTable.open" :p="dialog.editTable.params" @callParentMethod="handleEditClose"/>
         </el-dialog>
 
 
@@ -348,6 +348,9 @@ export default {
             }
             this.dialog.editTable.open = true
             this.dialog.editTable.params = p
+        },
+        handleEditClose() {
+            this.dialog.editTable.open = false;
         },
         /** 删除按钮操作 */
         handleDelete(row) {
