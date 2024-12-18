@@ -76,6 +76,7 @@ CREATE TABLE gen_table_column (
   column_name VARCHAR(200), -- 列名称
   column_comment VARCHAR(500), -- 列描述
   column_type VARCHAR(100), -- 列类型
+  data_type VARCHAR(100), -- 列数据类型
   java_type VARCHAR(500), -- JAVA类型
   java_field VARCHAR(200), -- JAVA字段名
   is_pk CHAR(1), -- 是否主键（1是）
@@ -102,6 +103,7 @@ COMMENT ON COLUMN gen_table_column.table_id IS '归属表编号';
 COMMENT ON COLUMN gen_table_column.column_name IS '列名称';
 COMMENT ON COLUMN gen_table_column.column_comment IS '列描述';
 COMMENT ON COLUMN gen_table_column.column_type IS '列类型';
+COMMENT ON COLUMN gen_table_column.data_type IS '列数据类型';
 COMMENT ON COLUMN gen_table_column.java_type IS 'JAVA类型';
 COMMENT ON COLUMN gen_table_column.java_field IS 'JAVA字段名';
 COMMENT ON COLUMN gen_table_column.is_pk IS '是否主键（1是）';

@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="columnName"     column="column_name"    />
         <result property="columnComment"  column="column_comment" />
         <result property="columnType"     column="column_type"    />
+        <result property="dataType"     column="data_type"    />
         <result property="javaType"       column="java_type"      />
         <result property="javaField"      column="java_field"     />
         <result property="isPk"           column="is_pk"          />
@@ -30,7 +31,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 	
 	<sql id="selectGenTableColumnVo">
-        select column_id, table_id, column_name, column_comment, column_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort, create_by, create_time, update_by, update_time from gen_table_column
+        select column_id, table_id, column_name, column_comment, column_type, data_type, java_type, java_field, is_pk, is_increment, is_required, is_insert, is_edit, is_list, is_query, query_type, html_type, dict_type, sort, create_by, create_time, update_by, update_time from gen_table_column
     </sql>
 	
     <select id="selectGenTableColumnListByTableId" parameterType="com.yushi.code.domain.GenTableColumn" resultMap="GenTableColumnResult">
@@ -51,7 +52,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT
             col.column_name,
             col.ordinal_position AS sort,
-            col.data_type column_type,
+            col.data_type data_type,
+            col.udt_name column_type,
+            (case when (col.is_nullable = 'NO') then '1' else null end) as is_required,
             pd.description column_comment
         FROM
             information_schema.columns col
@@ -124,6 +127,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="columnName != null and columnName != ''">column_name,</if>
         <if test="columnComment != null and columnComment != ''">column_comment,</if>
         <if test="columnType != null and columnType != ''">column_type,</if>
+        <if test="dataType != null and dataType != ''">data_type,</if>
         <if test="javaType != null and javaType != ''">java_type,</if>
         <if test="javaField != null  and javaField != ''">java_field,</if>
         <if test="isPk != null and isPk != ''">is_pk,</if>
@@ -144,6 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="columnName != null and columnName != ''">#{columnName},</if>
         <if test="columnComment != null and columnComment != ''">#{columnComment},</if>
         <if test="columnType != null and columnType != ''">#{columnType},</if>
+        <if test="dataType != null and dataType != ''">#{dataType},</if>
         <if test="javaType != null and javaType != ''">#{javaType},</if>
         <if test="javaField != null and javaField != ''">#{javaField},</if>
         <if test="isPk != null and isPk != ''">#{isPk},</if>
@@ -189,6 +194,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update gen_table_column
         <set>
             column_comment = #{columnComment},
+            column_type = #{columnType},
+            data_type = #{dataType},
             java_type = #{javaType},
             java_field = #{javaField},
             is_insert = #{isInsert},

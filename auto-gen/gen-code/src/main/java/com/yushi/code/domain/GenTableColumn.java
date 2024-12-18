@@ -29,6 +29,9 @@ public class GenTableColumn extends BaseEntity
     /** 列类型 */
     private String columnType;
 
+    /** 数据库类型 */
+    private String dataType;
+
     /** JAVA类型 */
     private String javaType;
 
@@ -369,5 +372,13 @@ public class GenTableColumn extends BaseEntity
         {
             return this.columnComment;
         }
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(final String dataType) {
+        this.dataType = dataType;
     }
 }

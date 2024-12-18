@@ -22,20 +22,33 @@
                         :show-overflow-tooltip="true"
                         label="物理类型"
                         min-width="10%"
-                        prop="columnType"
+                        prop="dataType"
                     />
                     <el-table-column label="Java类型" min-width="11%">
                         <template slot-scope="scope">
                             <el-select v-model="scope.row.javaType">
                                 <el-option label="Long" value="Long"/>
+                                <el-option label="long" value="long"/>
+                                <el-option label="char" value="char"/>
                                 <el-option label="String" value="String"/>
                                 <el-option label="Integer" value="Integer"/>
+                                <el-option label="int" value="int"/>
+                                <el-option label="Float" value="Float"/>
+                                <el-option label="float" value="float"/>
                                 <el-option label="Double" value="Double"/>
+                                <el-option label="double" value="double"/>
                                 <el-option label="BigDecimal" value="BigDecimal"/>
                                 <el-option label="Date" value="Date"/>
                                 <el-option label="LocalDateTime" value="LocalDateTime"/>
                                 <el-option label="LocalDate" value="LocalDate"/>
+                                <el-option label="LocalTime" value="LocalTime"/>
                                 <el-option label="Boolean" value="Boolean"/>
+                                <el-option label="boolean" value="boolean"/>
+                                <el-option label="Object" value="Object"/>
+                                <el-option label="List<Integer>" value="List<Integer>"/>
+                                <el-option label="List<String>" value="List<String>"/>
+                                <el-option label="List<Long>" value="List<Long>"/>
+                                <el-option label="List<Object>" value="List<Object>"/>
                             </el-select>
                         </template>
                     </el-table-column>
@@ -123,6 +136,7 @@
         </el-tabs>
         <el-form label-width="100px">
             <el-form-item style="text-align: center;margin-left:-100px;">
+                <el-button type="primary" @click="close()">取 消</el-button>
                 <el-button type="primary" @click="submitForm()">保 存</el-button>
             </el-form-item>
         </el-form>
@@ -131,7 +145,6 @@
 
 <script>
 import {getGenTable, updateGenTable} from "@/api/tool/gen";
-import {optionselect as getDictOptionselect} from "@/api/system/dict/type";
 import basicInfoForm from "./basicInfoForm";
 import genInfoForm from "./genInfoForm";
 import Sortable from 'sortablejs'
@@ -205,7 +218,7 @@ export default {
                     updateGenTable(genTable).then(res => {
                         this.$modal.msgSuccess(res.msg);
                         if (res.code === 200) {
-                            // this.close();
+                            this.close();
                         }
                     });
                 } else {
@@ -220,6 +233,11 @@ export default {
                 });
             });
         },
+        /** 关闭按钮 */
+        close() {
+            // 通过 $emit 触发事件
+            this.$emit('callParentMethod');
+        }
     },
     mounted() {
         const el = this.$refs.dragTable.$el.querySelectorAll(".el-table__body-wrapper > table > tbody")[0];
